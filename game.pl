@@ -2,7 +2,7 @@
                 GAME
    ==================================== */ 
 
-initialBoard([
+board([
        [' '],
        [' ', ' '],
        ['Z', ' ', 'Z'],
@@ -73,12 +73,14 @@ readNextMove :-
     format('----------------------------------------\n', []),
     format("\tWhat's your next move?\n", []),
     format('----------------------------------------\n\n', []),
-    format('Next Row: ', []), read(Row),
-    format('Next Column: ', []), read(Column),
-    printPlayerMove(Column, Row).
+    format('Curent Element Row: ', []), read(CurrentRow),
+    format('Curent Element Column: ', []), read(CurrentColumn),
+    format('Next Element Row: ', []), read(NextRow),
+    format('Next Element Column: ', []), read(NextColumn),
+    printPlayerMove(CurrentRow, CurrentColumn, NextRow, NextColumn).
 
-printPlayerMove(Column, Row) :-
-    format('\nColumn: ~p | Row: ~p', [Column, Row]).
+printPlayerMove(CurrentRow, CurrentColumn, NextRow, NextColumn) :-
+    format('\nRow: ~p -> ~p \nColumn: ~p -> ~p', [CurrentRow, NextRow, CurrentColumn, NextColumn]).
 
 /* ====================================
                 MENU
@@ -104,21 +106,21 @@ verifyMainMenuOption(_Option) :-
 
 nextState(Option) :-
     Option == 1,
-    initialBoard(Board),
+    board(Board),
     printBoard(Board, "HUMANO VS HUMANO"),
     printPontuations(0, 0, 0),
     readNextMove.
 
 nextState(Option) :-
     Option == 2,
-    initialBoard(Board),
+    board(Board),
     printBoard(Board, "HUMANO VS PC"),
     printPontuations(0, 0, 0),
     readNextMove.
 
 nextState(Option) :-
     Option == 3,
-    initialBoard(Board),
+    board(Board),
     printBoard(Board, "PC VS PC"),
     printPontuations(0, 0, 0),
     readNextMove.
