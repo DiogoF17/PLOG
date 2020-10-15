@@ -73,11 +73,42 @@ readNextMove :-
     format('----------------------------------------\n', []),
     format("\tWhat's your next move?\n", []),
     format('----------------------------------------\n\n', []),
+    read_current,
+    read_next.
+
+read_current :-
     format('Curent Element Row: ', []), read(CurrentRow),
     format('Curent Element Column: ', []), read(CurrentColumn),
+    valid_move_current(CurrentRow, CurrentColumn).
+
+read_next :-
+    format('\n----------------------------------------\n\n', []),
     format('Next Element Row: ', []), read(NextRow),
     format('Next Element Column: ', []), read(NextColumn),
-    printPlayerMove(CurrentRow, CurrentColumn, NextRow, NextColumn).
+    valid_move_next(NextRow, NextColumn).
+
+valid_move_current(Row, Column) :-
+    Row >= 1, Row =< 10, Column >= 1, Column =< Row,
+    find_element(Row, Column, X), 
+    X == 'O',
+    format("\nValid Move!", []).
+
+valid_move_current(Row, Column) :-
+    format('\nInvalid Move!\nCurent Element Row: ', []), read(CurrentRow),
+    format('Curent Element Column: ', []), read(CurrentColumn),
+    valid_move_current(CurrentRow, CurrentColumn).
+
+
+valid_move_next(Row, Column) :-
+    Row >= 1, Row =< 10, Column >= 1, Column =< Row,
+    find_element(Row, Column, X), 
+    X == ' ',
+    format('\nValid Move!', []).
+
+valid_move_next(Row, Column) :-
+    format('\nInvalid Move!\nNext Element Row: ', []), read(NextRow),
+    format('Next Element Column: ', []), read(NextColumn),
+    valid_move_next(NextRow, NextColumn).
 
 printPlayerMove(CurrentRow, CurrentColumn, NextRow, NextColumn) :-
     format('\nRow: ~p -> ~p \nColumn: ~p -> ~p', [CurrentRow, NextRow, CurrentColumn, NextColumn]).
@@ -124,6 +155,52 @@ nextState(Option) :-
     printBoard(Board, "PC VS PC"),
     printPontuations(0, 0, 0),
     readNextMove.
+
+
+/*=====================================*/
+
+/*show_list([Row1 | []]) :-
+    format("------------\n", []),
+    show_row(Row1), 
+    format("\n------------\n", []),
+    format("Lista Vazia\n", []).
+
+show_list([Row1 | Row2]) :-
+    format("------------\n", []),
+    show_row(Row1), 
+    format("\n------------\n", []),
+    show_list(Row2).
+
+show_row([]).
+
+show_row([H | T]) :-
+    format(" ~p |", [H]),
+    show_row(T).*/
+
+/*==================*/
+
+find_element(ElementRow, ElementColumn, Element) :-
+    board(Board),
+    show_list(Board, 1, 1, ElementRow, ElementColumn, Element).
+
+show_list([_Row1 | Row2], IndexRow, IndexColumn, ElementRow, ElementColumn, Element) :-
+    ElementRow \== IndexRow,
+    IndexRow1 is IndexRow + 1,
+    IndexRow1 =< 10,
+    show_list(Row2, IndexRow1, IndexColumn, ElementRow, ElementColumn, Element).
+
+show_list([Row1 | _Row2], IndexRow, IndexColumn, ElementRow, ElementColumn, Element) :-
+    ElementRow == IndexRow,
+    show_row(Row1, IndexRow, IndexColumn, ElementRow, ElementColumn, Element).
+
+show_row([_H | T], IndexRow, IndexColumn, ElementRow, ElementColumn, Element) :-
+    ElementColumn \== IndexColumn,
+    IndexColumn1 is IndexColumn + 1,
+    show_row(T, IndexRow, IndexColumn1, ElementRow, ElementColumn, Element).
+
+show_row([H | _T], _IndexRow, IndexColumn, _ElementRow, ElementColumn, Element) :-
+    ElementColumn == IndexColumn,
+    Element = H.
 
 
 
