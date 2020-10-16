@@ -34,28 +34,21 @@ find_column([H | _T], _IndexRow, IndexColumn, _ElementRow, ElementColumn, Elemen
 update_pos(Row, Col, CurrentBoard, NewBoard, Element) :-
     update_line(Row, Col, 1, 1, CurrentBoard, NewBoard, Element).
 
-update_line(Row, Col, IndexRow, IndexCol, [H1 | T1], [H2 | T2], Element) :-
+update_line(Row, Col, IndexRow, IndexCol, [H1 | T1], [H1 | T2], Element) :-
     IndexRow < Row,
     IndexRow1 is IndexRow + 1,
-    copy(H1, H2),
     update_line(Row, Col, IndexRow1, IndexCol, T1, T2, Element).
 
-update_line(Row, Col, IndexRow, IndexCol, [H1 | T1], [H2 | T2], Element) :-
+update_line(Row, Col, IndexRow, IndexCol, [H1 | T1], [H2 | T1], Element) :-
     IndexRow == Row,
-    copy(T1, T2),
     update_col(Col, IndexCol, H1, H2, Element).
 
-update_col(Col, IndexCol, [H1 | T1], [H2 | T2], Element) :-
+update_col(Col, IndexCol, [H1 | T1], [H1 | T2], Element) :-
     IndexCol < Col,
     IndexCol1 is IndexCol + 1,
-    copy(H1, H2),
     update_col(Col, IndexCol1, T1, T2, Element).
 
-update_col(Col, IndexCol, [_ | T1], [H2 | T2], Element) :-
-    IndexCol == Col,
-    copy(T1, T2),
-    copy(Element, H2).
-
-copy(X, X).
+update_col(Col, IndexCol, [_ | T1], [Element | T1], Element) :-
+    IndexCol == Col.
 
 

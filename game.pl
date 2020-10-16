@@ -1,6 +1,6 @@
 :- consult('menu.pl').
 
-game :- printMenu.
+game :- printMainMenu.
 
 
 
