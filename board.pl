@@ -1,4 +1,9 @@
 :- dynamic board/1.
+:- dynamic player_turn/1.
+:- dynamic z_belongs_to/1.
+:- dynamic o_eliminated/1.
+:- dynamic x_eliminated/1.
+:- dynamic z_eliminated/1.
 
 board([
        [' '],
@@ -12,20 +17,22 @@ board([
        ['O', 'O', 'O', ' ', ' ', ' ', 'X', 'X', 'X'],
        ['O', 'O', 'O', 'O', ' ', ' ', 'X', 'X', 'X', 'X']]).
 
+player_turn('O'). /* current player */
+z_belongs_to('O'). /* the z belongs to player */
+o_eliminated(0).
+x_eliminated(0).
+z_eliminated(0).
+
 save_board(Board) :-
     retract(board(_)),
     assert(board(Board)).
 
-printPontuations(ElementsO, ElementsX, ElementsZ) :-
-    format("------------------------------\n", []),
-    format("| Number Elements Eliminated |\n", []),
-    format("------------------------------\n", []),
-    format("| O: ~p                       |\n", [ElementsO]),
-    format("| X: ~p                       |\n", [ElementsX]),
-    format("| Z: ~p                       |\n", [ElementsZ]),
-    format("------------------------------\n\n", []).
+printGame(Msg) :- 
+    printBoard(Msg),
+    printPontuations.
 
-printBoard(Board, Message) :- 
+printBoard(Message) :- 
+    board(Board),
     format('\n\n========================================\n\t ~s \n========================================', [Message]),
     printRow1(Board).
 
@@ -70,3 +77,16 @@ printRow10([Row | _Rest]) :-
     format("    O# | ~p | ~p | ~p | ~p | ~p | ~p | ~p | ~p | ~p | ~p | #X               |               O# | (10, 1) | (10, 2) | (10, 3) | (10, 4) | (10, 5) | (10, 6) | (10, 7) | (10, 8) | (10, 9) | (10, 10) | #X\n", Row),
     format("       #########################################                                     ######################################################################################################\n", []),
     format("           Z   Z   Z   Z   Z   Z   Z   Z   Z   Z                                          Z         Z         Z         Z         Z         Z         Z         Z         Z         Z\n\n", []).
+
+
+printPontuations :-
+    o_eliminated(O),
+    z_eliminated(Z),
+    x_eliminated(X),
+    format("------------------------------\n", []),
+    format("| Number Elements Eliminated |\n", []),
+    format("------------------------------\n", []),
+    format("| O: ~p                       |\n", [O]),
+    format("| X: ~p                       |\n", [X]),
+    format("| Z: ~p                       |\n", [Z]),
+    format("------------------------------\n\n", []).
