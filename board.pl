@@ -1,10 +1,6 @@
 :- dynamic board/1.
-:- dynamic player_turn/1.
-:- dynamic z_belongs_to/1.
-:- dynamic o_eliminated/1.
-:- dynamic x_eliminated/1.
-:- dynamic z_eliminated/1.
 
+/* when we start to play the board is in this state */
 initial([
        [' '],
        [' ', ' '],
@@ -17,43 +13,17 @@ initial([
        ['O', 'O', 'O', ' ', ' ', ' ', 'X', 'X', 'X'],
        ['O', 'O', 'O', 'O', ' ', ' ', 'X', 'X', 'X', 'X']]).
 
-board([
-       [' '],
-       [' ', ' '],
-       ['Z', ' ', 'Z'],
-       ['Z', ' ', ' ', 'Z'],
-       [' ', ' ', 'Z', ' ', ' '],
-       [' ', ' ', 'Z', 'Z', ' ', ' '],
-       ['O', ' ', ' ', 'Z', ' ', ' ', 'X'],
-       ['O', 'O', ' ', ' ', ' ', ' ', 'X', 'X'],
-       ['O', 'O', 'O', ' ', ' ', ' ', 'X', 'X', 'X'],
-       ['O', 'O', 'O', 'O', ' ', ' ', 'X', 'X', 'X', 'X']]).
+/* the board state is going to be saved in here */
+board(_).
 
-player_turn('O'). /* current player */
-z_belongs_to('O'). /* the z belongs to player */
-o_eliminated(0).
-x_eliminated(0).
-z_eliminated(0).
+/* --------------------------------------------- */
 
-save_board(Board) :-
-    retract(board(_)),
-    assert(board(Board)).
-
-print_game(Msg) :- 
-    print_board(Msg),
+display_game(Board, _Player) :- 
+    print_board(Board),
     print_pontuations.
 
-display_game(Board, Player) :- 
-    print_board.
-
-print_board :- 
-    board(Board),
+print_board(Board) :-
     format('\n\n========================================\n', []),
-    print_row1(Board).
-
-print_board(Message) :- 
-    board(Board),
-    format('\n\n========================================\n\t ~s \n========================================', [Message]),
     print_row1(Board).
 
 print_row1([Row | Rest]) :-
@@ -100,13 +70,20 @@ print_row10([Row | _Rest]) :-
 
 
 print_pontuations :-
-    o_eliminated(O),
-    z_eliminated(Z),
-    x_eliminated(X),
+    o_eliminated(O), z_eliminated(Z), x_eliminated(X), z_belongs_to(Player),
     format("------------------------------\n", []),
-    format("| Number Elements Eliminated |\n", []),
+    format("  Number Elements Eliminated \n", []),
     format("------------------------------\n", []),
-    format("| O: ~p                       |\n", [O]),
-    format("| X: ~p                       |\n", [X]),
-    format("| Z: ~p                       |\n", [Z]),
+    format("  O: ~p                       \n", [O]),
+    format("  X: ~p                       \n", [X]),
+    format("  Z: ~p                       \n", [Z]),
+    format("------------------------------\n", []),
+    format("  Z belongs to -> ~p                       \n", [Player]),
     format("------------------------------\n\n", []).
+
+/* updates board according to the player move */
+update_board(CurrentRow, CurrentCol, NextRow, NextCol, Element) :-
+    board(Board),
+    update_pos(CurrentRow, CurrentCol, Board, NewBoard, ' '), 
+    update_pos(NextRow, NextCol, NewBoard, NewBoard1, Element),
+    save_board(NewBoard1).
