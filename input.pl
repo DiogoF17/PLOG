@@ -1,15 +1,15 @@
-askMenuOption(Option, Limit) :-
+ask_menu_option(Option, Limit) :-
     format('\nInsira a sua opcao: ', []), read(UserInput),
-    verifyMenuOption(UserInput, Option, Limit).
+    verify_menu_option(UserInput, Option, Limit).
 
-verifyMenuOption(Option, Option, Limit) :-
+verify_menu_option(Option, Option, Limit) :-
     integer(Option), Option >= 1, Option =< Limit.
 
-verifyMenuOption(_, Option, Limit) :-
+verify_menu_option(_, Option, Limit) :-
     format("\nOpcao Invalida! Tente novamente: ", []), read(X),
-    verifyMenuOption(X, Option, Limit).
+    verify_menu_option(X, Option, Limit).
 
-askPlayerMove(Msg, Row, Column, Element) :-
+ask_player_move(Msg, Row, Column, Element) :-
     format('~p Row: ', [Msg]), read(InputRow),
     format('~p Column: ', [Msg]), read(InputColumn),
     valid_move(Msg, Row, Column, InputRow, InputColumn, Element).

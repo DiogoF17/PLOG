@@ -4,11 +4,11 @@
 :- consult('input.pl').
 
 mainMenu :-
-    printMainMenu,
-    askMenuOption(Option, 3),
-    nextState(mainMenu, Option).
+    display_main_menu,
+    ask_menu_option(Option, 3),
+    next_state(mainMenu, Option).
 
-printMainMenu :- 
+display_main_menu :- 
     format('\n\n========================================\n', []),
     format('\tMAIN MENU\n', []),
     format('========================================\n', []),
