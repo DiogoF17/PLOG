@@ -20,7 +20,11 @@ Para decidir quem é o vencedor procede-se à acontagem da seguinte forma:
     * cada jogador recebe 1 ponto por cada peça capturada que não seja sua;
     * o jogador que obiter mais pontos é o **VENCEDOR**.
 
-Página do Jogo: [Link para Página do Jogo] (https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf)
+Página do Jogo: (https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf)
+
+### Representação interna do estado do jogo
+
+### Visualização do estado do jogo
 
 
 
