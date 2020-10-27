@@ -3,8 +3,8 @@
 ## Green Skull
 
 **Identificação do Jogo:** Green Skull  
-**Identificação do Grupo:** 
-    * Diogo Santos (up201806878)
+**Identificação do Grupo:**   
+    * Diogo Santos (up201806878)  
     * Tomás Gonçalves(upxxxxxxxx)
 
 ### Descrição do Jogo
@@ -17,8 +17,7 @@ O movimento de cada peça tem de ser para um espaço adjacente vazio ou então p
 
 O jogo acaba quando todas as peças de um tipo restantes no tabuleiro estão a tocar na borda da sua cor ou quando todas as peças de um tipo foram comidas.
 
-Para decidir quem é o vencedor procede-se à contagem da seguinte forma:
-
+Para decidir quem é o vencedor procede-se à contagem da seguinte forma:  
     * cada jogador recebe 2 pontos por cada peça que toque a borda da sua cor  
     * cada jogador recebe 1 ponto por cada peça capturada que não seja da sua cor  
     * o jogador que obtiver mais pontos é o **VENCEDOR**  
