@@ -18,9 +18,9 @@ O movimento de cada peça tem de ser para um espaço adjacente vazio ou então p
 O jogo acaba quando todas as peças de um tipo restantes no tabuleiro estão a tocar na borda da sua cor ou quando todas as peças de um tipo foram comidas.
 
 Para decidir quem é o vencedor procede-se à contagem da seguinte forma:  
-- cada jogador recebe 2 pontos por cada peça que toque a borda da sua cor  
-- cada jogador recebe 1 ponto por cada peça capturada que não seja da sua cor  
-- o jogador que obtiver mais pontos é o **VENCEDOR**  
+- cada espécie recebe 2 pontos por cada peça que toque a borda da sua cor  
+- cada espécie recebe 1 ponto por cada peça capturada que não seja da sua cor  
+- a espécie que obtiver mais pontos é o **VENCEDOR**, incluindo a dos zombies 
 
 Página do Jogo: (https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf)
 
