@@ -3,6 +3,7 @@
 ## Green Skull
 
 **Identificação do Jogo:** Green Skull
+
 **Identificação do Grupo:** Diogo Santos (up201806878)
 
 ### Descrição do Jogo
@@ -16,9 +17,10 @@ O movimento de cada peça tem de ser para um espaço adjacente vazio ou então p
 O jogo acaba quando todas as peças de um tipo restantes no tabuleiro estão a tocar na borda da sua cor ou quando todas as peças de um tipo foram comidas.
 
 Para decidir quem é o vencedor procede-se à acontagem da seguinte forma:
-    * cada jogador recebe 2 pontos por cada peça que toque a borda da sua cor;
-    * cada jogador recebe 1 ponto por cada peça capturada que não seja sua;
-    * o jogador que obiter mais pontos é o **VENCEDOR**.
+
+    * cada jogador recebe 2 pontos por cada peça que toque a borda da sua cor
+    * cada jogador recebe 1 ponto por cada peça capturada que não seja sua
+    * o jogador que obiter mais pontos é o **VENCEDOR**
 
 Página do Jogo: (https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf)
 
