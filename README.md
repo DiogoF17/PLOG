@@ -1,13 +1,13 @@
-GREEN SKULL
-===========
+# GREEN SKULL
 
 **Identificação do Jogo:** Green Skull  
-**Identificação do Grupo:**     
-    * Diogo Santos (up201806878)  
-    * Tomás Gonçalves(upxxxxxxxx)
+**Identificação do Grupo:**  
+- Diogo Santos (up201806878)  
+- Tomás Gonçalves(upxxxxxxxx)
 
-Descrição do Jogo
------------------
+---
+
+## Descrição do Jogo
 
 Green Skull é um jogo que deve ser disputado por 2 jogadores e em que existe uma tabuleiro de formato triangular em que cada uma das suas bordas tem uma cor correspondente ás peças. O jogo é constituído ainda por peças de 3 tipos: 10 peças Goblins roxas(representadas por 'O'), 10 peças Orcs brancas(representadas por 'X'), 8 peças Zombies verdes(representadas por 'Z') e ainda 1 crânio verde que controla as peças Zombie.
 
@@ -18,17 +18,19 @@ O movimento de cada peça tem de ser para um espaço adjacente vazio ou então p
 O jogo acaba quando todas as peças de um tipo restantes no tabuleiro estão a tocar na borda da sua cor ou quando todas as peças de um tipo foram comidas.
 
 Para decidir quem é o vencedor procede-se à contagem da seguinte forma:  
-    * cada jogador recebe 2 pontos por cada peça que toque a borda da sua cor  
-    * cada jogador recebe 1 ponto por cada peça capturada que não seja da sua cor  
-    * o jogador que obtiver mais pontos é o **VENCEDOR**  
+- cada jogador recebe 2 pontos por cada peça que toque a borda da sua cor  
+- cada jogador recebe 1 ponto por cada peça capturada que não seja da sua cor  
+- o jogador que obtiver mais pontos é o **VENCEDOR**  
 
 Página do Jogo: (https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf)
 
-Representação interna do estado do jogo
----------------------------------------
+---
 
-Visualização do estado do jogo
-------------------------------
+## Representação interna do estado do jogo
+
+---
+
+## Visualização do estado do jogo
 
 
 
