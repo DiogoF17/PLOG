@@ -3,7 +3,7 @@
 **Identificação do Jogo:** Green Skull  
 **Identificação do Grupo:**  
 - Diogo Santos (up201806878)  
-- Tomás Gonçalves(upxxxxxxxx)
+- Tomás Gonçalves(up201806763)
 
 ---
 
