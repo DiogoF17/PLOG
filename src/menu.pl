@@ -1,6 +1,6 @@
 :- consult('board.pl').
 :- consult('player.pl').
-:- consult('game_logic.pl').
+:- consult('game.pl').
 :- consult('states.pl').
 :- consult('input.pl').
 
