@@ -7,31 +7,91 @@
 
 ---
 
-## Descrição do Jogo
+Green Skull
 
-Green Skull é um jogo que deve ser disputado por 2 jogadores e em que existe uma tabuleiro de formato triangular em que cada uma das suas bordas tem uma cor correspondente ás peças. O jogo é constituído ainda por peças de 3 tipos: 10 peças Goblins roxas(representadas por 'O'), 10 peças Orcs brancas(representadas por 'X'), 8 peças Zombies verdes(representadas por 'Z') e ainda 1 crânio verde que controla as peças Zombie.
+Green Skull é um jogo de tabuleiro disputado por dois jogadores. O material necessário para jogar é: um tabuleiro, peças redondas (8 verdes, 10 roxas e 10 brancas) e uma peça não redonda (geralmente em formato de crânio).
+O tabuleiro é de formato triangular apresentando bordas de cores correspondentes aos três tipos de peças.
 
-Um dos jogadores toma posse dos Goblins e outro dos Orcs, depois as peças Zombie vão trocando de um para o outro conforme vão comendo as peças(inicialmente atribuímo-las ao jogador que possui os Goblins).
+Os três tipos de peças representam diferentes criaturas mitológicas (embora a representação seja apenas abstrata). As peças verdes são chamadas de Zombies, as brancas de Orcs e as roxas de Goblins.
+Ao iniciar o jogo, um jogador toma posse dos Goblins enquanto que o adversário controla os Orcs. O controlo das peças Zombie vai alternando entre os dois jogadores à medida que vão jogando (embora seja primeiro atribuído ao jogador que possui os goblins).
 
-O movimento de cada peça tem de ser para um espaço adjacente vazio ou então pode comer uma peça de qualquer tipo(incluindo as suas) fazendo saltos em linha reta sob estas, cada um destes saltos tem de ser para um espaço vazio. Estas peças pelas quais a peça vai passando por cima vão sendo removidas do tabuleiro. Se o jogador optou por comer uma peça então tem de passar o crânio verde para o outro jogador tendo agora ele posse dos Zombies. Qualquer jogador que tenha posse dos Zombies para além de poder jogar as suas próprias peças pode também jogar os Zombies.
+Ambos os jogadores podem efetuar um de dois movimentos possíveis:
+-O primeiro é deslocar uma das suas peças para uma casa adjacente vazia.
+-Pode também efetuar um ou mais saltos em linha reta sobre outra peça (incluindo peças do próprio jogador) caindo numa casa vazia. Estas peças pelas quais a peça vai passando por cima vão sendo removidas do tabuleiro. Se o jogador que possui o crânio optar por este segundo movimento, deve ceder o crânio ao seu adversário tendo agora ele posse dos Zombies.
 
-O jogo acaba quando todas as peças de um tipo restantes no tabuleiro estão a tocar na borda da sua cor ou quando todas as peças de um tipo foram comidas.
+O jogador que possui o crânio pode ainda mover uma das peças zombies após cada jogada com as suas respetivas peças.
 
-Para decidir quem é o vencedor procede-se à contagem da seguinte forma:  
-- cada espécie recebe 2 pontos por cada peça que toque a borda da sua cor  
-- cada espécie recebe 1 ponto por cada peça capturada que não seja da sua cor  
-- a espécie que obtiver mais pontos é o **VENCEDOR**, incluindo a dos zombies 
+O jogo termina quando todas as peças de um tipo forem comidas ou estiverem em contacto com a borda da mesma cor.
+
+Vence a espécie que obtiver mais pontos de acordo com a seguinte contagem:
+
+cada espécie recebe 2 pontos por cada peça que toque a borda da sua cor
+cada espécie recebe 1 ponto por cada peça capturada que não seja da sua cor
+
 
 Página do Jogo: (https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf)
 
 ---
 
-## Representação interna do estado do jogo
+#Estado inicial do jogo:
+initial([
+       [' '],
+       [' ', ' '],
+       ['Z', ' ', 'Z'],
+       ['Z', ' ', ' ', 'Z'],
+       [' ', ' ', 'Z', ' ', ' '],
+       [' ', ' ', 'Z', 'Z', ' ', ' '],
+       ['O', ' ', ' ', 'Z', ' ', ' ', 'X'],
+       ['O', 'O', ' ', ' ', ' ', ' ', 'X', 'X'],
+       ['O', 'O', 'O', ' ', ' ', ' ', 'X', 'X', 'X'],
+       ['O', 'O', 'O', 'O', ' ', ' ', 'X', 'X', 'X', 'X']]).
 
----
+#Estados intermédios do jogo:
+intermediate1([
+    ['O'],
+    [' ', 'X'],
+    ['Z', 'X', 'O'],
+    ['O', 'Z', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', 'O', ' ', ' ', ' '],
+    [' ', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', 'O', ' ', ' '],
+    [' ', 'X', ' ', ' ', 'Z', ' ', ' ', ' ', ' ', ' ']]).
 
-## Visualização do estado do jogo
+intermediate2([
+    ['O'],
+    [' ', 'X'],
+    ['Z', 'X', 'O'],
+    ['O', 'Z', 'X', ' '],
+    [' ', ' ', 'Z', 'Z', ' '],
+    [' ', ' ', ' ', ' ', 'O', ' '],
+    [' ', 'X', ' ', 'O', ' ', ' ', ' '],
+    [' ', 'X', 'O', ' ', 'Z', ' ', ' ', ' '],
+    ['X', ' ', 'Z', ' ', ' ', ' ', 'O', 'O', 'O'],
+    [' ', 'X', ' ', ' ', 'Z', ' ', ' ', ' ', ' ', ' ']]).
 
+intermediate3([
+    [' '],
+    ['Z', ''],
+    [' ', ' ', 'O'],
+    [' ', 'Z', 'X', ' '],
+    [' ', ' ', 'Z', 'Z', ' '],
+    [' ', ' ', ' ', ' ', 'O', ' '],
+    [' ', '', ' ', 'O', ' ', ' ', 'X'],
+    [' ', '', 'X', ' ', 'Z', ' ', ' ', ' '],
+    ['X', 'O', '', ' ', ' ', ' ', 'O', 'O', 'O'],
+    ['Z', 'X', ' ', ' ', ' ', ' ', 'O', ' ', ' ', 'X']]).
 
-
-
+#Estado final do jogo:
+  final([
+      ['O'],
+      [' ', 'X'],
+      [' ', 'X', 'O'],
+      ['O', ' ', ' ', ' '],
+      [' ', ' ', ' ', ' ', ' '],
+      [' ', ' ', ' ', ' ', ' ', ' '],
+      [' ', ' ', ' ', 'O', ' ', ' ', ' '],
+      [' ', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
+      [' ', ' ', ' ', ' ', ' ', ' ', 'O', ' ', ' '],
+      ['Z', 'X', ' ', ' ', 'Z', 'Z', ' ', ' ', ' ', ' ']]).

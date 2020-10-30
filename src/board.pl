@@ -68,7 +68,7 @@ board(_).
 
 display_game(Board, _Player) :- 
     print_board(Board),
-    print_pontuations.
+    print_score.
 
 print_board(Board) :-
     format('\n\n========================================\n', []),
@@ -117,7 +117,7 @@ print_row10([Row | _Rest]) :-
     format("           Z   Z   Z   Z   Z   Z   Z   Z   Z   Z                                          Z         Z         Z         Z         Z         Z         Z         Z         Z         Z\n\n", []).
 
 
-print_pontuations :-
+print_score :-
     o_eliminated(O), z_eliminated(Z), x_eliminated(X), z_belongs_to(Player),
     format("------------------------------\n", []),
     format("  Number Elements Eliminated \n", []),
