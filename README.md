@@ -51,17 +51,7 @@ Vence a espécie que obtiver mais pontos de acordo com a seguinte contagem:
 O tabuleiro triangular é representado através de uma lista de listas com a seguinte disposição:
 
 **Estado inicial do jogo:**
-initial([
-       [' '],
-       [' ', ' '],
-       ['Z', ' ', 'Z'],
-       ['Z', ' ', ' ', 'Z'],
-       [' ', ' ', 'Z', ' ', ' '],
-       [' ', ' ', 'Z', 'Z', ' ', ' '],
-       ['O', ' ', ' ', 'Z', ' ', ' ', 'X'],
-       ['O', 'O', ' ', ' ', ' ', ' ', 'X', 'X'],
-       ['O', 'O', 'O', ' ', ' ', ' ', 'X', 'X', 'X'],
-       ['O', 'O', 'O', 'O', ' ', ' ', 'X', 'X', 'X', 'X']]).
+![tabela_inicial](imagens/tabela_inicial.png)
 
 O tabuleiro é criado com as peças nas suas posições iniciais. As peças Zombie são representadas visualmente pela letra “Z”, Goblins por “O” e Orcs por “X”. 
  
@@ -70,57 +60,13 @@ Os três tabuleiros seguintes representam estados de jogo intermédios. Podemos 
 
 
 **Estados intermédios do jogo:**
-intermediate1([
-    ['O'],
-    [' ', 'X'],
-    ['Z', 'X', 'O'],
-    ['O', 'Z', ' ', ' '],
-    [' ', ' ', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', ' ', ' '],
-    [' ', ' ', ' ', 'O', ' ', ' ', ' '],
-    [' ', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', ' ', ' ', 'O', ' ', ' '],
-    [' ', 'X', ' ', ' ', 'Z', ' ', ' ', ' ', ' ', ' ']]).
-
-intermediate2([
-    ['O'],
-    [' ', 'X'],
-    ['Z', 'X', 'O'],
-    ['O', 'Z', 'X', ' '],
-    [' ', ' ', 'Z', 'Z', ' '],
-    [' ', ' ', ' ', ' ', 'O', ' '],
-    [' ', 'X', ' ', 'O', ' ', ' ', ' '],
-    [' ', 'X', 'O', ' ', 'Z', ' ', ' ', ' '],
-    ['X', ' ', 'Z', ' ', ' ', ' ', 'O', 'O', 'O'],
-    [' ', 'X', ' ', ' ', 'Z', ' ', ' ', ' ', ' ', ' ']]).
-
-intermediate3([
-    [' '],
-    ['Z', ''],
-    [' ', ' ', 'O'],
-    [' ', 'Z', 'X', ' '],
-    [' ', ' ', 'Z', 'Z', ' '],
-    [' ', ' ', ' ', ' ', 'O', ' '],
-    [' ', '', ' ', 'O', ' ', ' ', 'X'],
-    [' ', '', 'X', ' ', 'Z', ' ', ' ', ' '],
-    ['X', 'O', '', ' ', ' ', ' ', 'O', 'O', 'O'],
-    ['Z', 'X', ' ', ' ', ' ', ' ', 'O', ' ', ' ', 'X']]).
+![tabela_intermedia](imagens/tabela_intermedia.png)
 
 
-    Esta última tabela mostra-nos o estado final do jogo. O jogo terminou pois todas as peças Zombie (“Z”) estão em contacto com a face do tabuleiro correspondente à sua cor (neste caso a base do triângulo). 
+Esta última tabela mostra-nos o estado final do jogo. O jogo terminou pois todas as peças Zombie (“Z”) estão em contacto com a face do tabuleiro correspondente à sua cor (neste caso a base do triângulo). 
 
 **Estado final do jogo:**
-  final([
-      ['O'],
-      [' ', 'X'],
-      [' ', 'X', 'O'],
-      ['O', ' ', ' ', ' '],
-      [' ', ' ', ' ', ' ', ' '],
-      [' ', ' ', ' ', ' ', ' ', ' '],
-      [' ', ' ', ' ', 'O', ' ', ' ', ' '],
-      [' ', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
-      [' ', ' ', ' ', ' ', ' ', ' ', 'O', ' ', ' '],
-      ['Z', 'X', ' ', ' ', 'Z', 'Z', ' ', ' ', ' ', ' ']]).
+![tabela_final](imagens/tabela_final.png)
 
 
 Guardamos a informação de qual o jogador que deve jogar através do facto que vamos alterando dinamicamente chamado player_turn e guarda uma string que indica qual é o jogador a jogar. Da mesma forma, representamos o detentor do crânio verde com o facto z_belongs_to que também contém uma string que nos diz qual dos dois jogadores controla os zombies nesse instante.
