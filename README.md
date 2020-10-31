@@ -12,7 +12,8 @@
 
 Green Skull é um jogo de tabuleiro disputado por dois jogadores. O material necessário para jogar é: um tabuleiro, peças redondas (8 verdes, 10 roxas e 10 brancas) e uma peça não redonda (geralmente em formato de crânio). 
 
-imagens/tabuleiro_real.png
+![tabuleiro_real](imagens/tabuleiro_real.png)
+
 
 O tabuleiro é de formato triangular apresentando bordas de cores correspondentes aos três tipos de peças.
 
@@ -25,11 +26,13 @@ Ao iniciar o jogo, um jogador toma posse dos Goblins enquanto que o adversário 
 Ambos os jogadores podem efetuar um de dois movimentos possíveis:
 -O primeiro é deslocar uma das suas peças para uma casa adjacente vazia. 
 
-imagens/movimento1.png
+![movimento1](imagens/movimento1.png)
+
 
 -Pode também efetuar um ou mais saltos em linha reta sobre outra peça (incluindo peças do próprio jogador) caindo numa casa vazia. Estas peças pelas quais a peça vai passando por cima vão sendo removidas do tabuleiro. Se o jogador que possui o crânio optar por este segundo movimento, deve ceder o crânio ao seu adversário tendo agora ele posse dos Zombies. 
 
-imagens/movimento2.png
+![movimento2](imagens/movimento2.png)
+
 
 O jogador que possui o crânio pode ainda mover uma das peças zombies após cada jogada com as suas respetivas peças. 
 
@@ -131,17 +134,18 @@ O jogo apresenta um segundo tabuleiro com índices para facilitar a escolha da p
 
 Na seguinte imagem é possível observar o estado inicial do jogo.
 
+![tabuleiro_jogo](imagens/tabuleiro_jogo.png)
 
-imagens/tabuleiro_jogo.png
 
 
 O jogo apresenta uma tabela indicativa do número de peças eliminadas de cada espécie. Indica também o jogador que possui a caveira assim como jogador que deve jogar no turno atual. Para efetuar um movimento, o jogador deve indicar as coordenadas da peça a mover, assim como as da casa para onde pretende mover a mesma.
 
-imagens/tabela.png
+/imagens/tabela.png
 
 Para podermos visualizar o tabuleiro temos de recorrer ao predicado “display_game/2” que recebe o tabuleiro e o jogador a jogar. Este predicado recorre a dois outros: “print_board/1” que recebe o tabuleiro  e ao “print_score/0” que mostra as atuais pontuações. O predicado “print_board/1” recorre por sua vez a outro predicado “print_row1/1” que imprime a linha 1 este chama o “print_row2/1” que imprime a linha 2 e assim sucessivamente até à linha 10.
 
-imagens/functions.png
+![funções](imagens/functions.png)
+
 
 Página do Jogo: (https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf)
 
