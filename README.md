@@ -7,7 +7,7 @@
 
 ---
 
-# 1-Desrição
+# 1-Descrição
 **Introdução**
 
 Green Skull é um jogo de tabuleiro disputado por dois jogadores. O material necessário para jogar é: um tabuleiro, peças redondas (8 verdes, 10 roxas e 10 brancas) e uma peça não redonda (geralmente em formato de crânio). 
@@ -140,7 +140,8 @@ Na seguinte imagem é possível observar o estado inicial do jogo.
 
 O jogo apresenta uma tabela indicativa do número de peças eliminadas de cada espécie. Indica também o jogador que possui a caveira assim como jogador que deve jogar no turno atual. Para efetuar um movimento, o jogador deve indicar as coordenadas da peça a mover, assim como as da casa para onde pretende mover a mesma.
 
-/imagens/tabela.png
+![tabuleiro_jogo](imagens/tabela.png)
+
 
 Para podermos visualizar o tabuleiro temos de recorrer ao predicado “display_game/2” que recebe o tabuleiro e o jogador a jogar. Este predicado recorre a dois outros: “print_board/1” que recebe o tabuleiro  e ao “print_score/0” que mostra as atuais pontuações. O predicado “print_board/1” recorre por sua vez a outro predicado “print_row1/1” que imprime a linha 1 este chama o “print_row2/1” que imprime a linha 2 e assim sucessivamente até à linha 10.
 
