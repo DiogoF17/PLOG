@@ -58,5 +58,12 @@ is_valid_eat_pos(Row, Col, CurRow, CurCol, RowElem, ColElem) :-
     RowRest mod 2 =:= 0,
     ColRest mod 2 =:= 0,
     RowElem is RowRest // 2,
-    ColElem is ColRest // 2.
+    is_consecutive(RowElem),
+    ColElem is ColRest // 2,
+    is_consecutive(ColElem).
+
+is_consecutive(0).
+is_consecutive(1).
+is_consecutive(-1).
+
 
