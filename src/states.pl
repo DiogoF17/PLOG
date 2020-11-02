@@ -25,49 +25,34 @@ SELECTS THE NEXT STATE FROM THE CURRENT STATE: BOARD
 */
 
                 /* All pieces were eliminated! */
-next_state:-
+endOfGame:-
     o_eliminated(O),
-    O =:= 10, !,
-    end_game_menu.
+    O =:= 10.
 
-next_state:-
+endOfGame:-
     x_eliminated(X),
-    X =:= 10, !,
-    end_game_menu.
+    X =:= 10.
 
-next_state:-
+endOfGame:-
     z_eliminated(Z),
-    Z =:= 10, !,
-    end_game_menu.
+    Z =:= 10.
 
                 /* All remaining pieces are touching the border of it's color */
 
-next_state:-
+endOfGame:-
     o_eliminated(O),
     Remaining is 10 - O,
     count_O_touching_border(Num),
-    Remaining =:= Num, !,
-    end_game_menu.
+    Remaining =:= Num.
 
-next_state:-
+endOfGame:-
     x_eliminated(X),
     Remaining is 10 - X,
     count_X_touching_border(Num),
-    Remaining =:= Num, !,
-    end_game_menu.
+    Remaining =:= Num.
 
-next_state:-
+endOfGame:-
     z_eliminated(Z),
     Remaining is 8 - Z,
     count_Z_touching_border(Num),
-    Remaining =:= Num, !,
-    end_game_menu.
-
-                /* The game is not over yet! */
-
-next_state:-
-    o_eliminated(O),
-    z_eliminated(Z),
-    x_eliminated(X),
-    O =\= 10, X =\= 10, Z =\= 10,
-    play.
+    Remaining =:= Num.

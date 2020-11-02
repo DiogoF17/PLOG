@@ -3,11 +3,13 @@
 :- consult('player.pl').
 
 play :- 
-    board(Board), player_turn(Player),
-    display_game(Board, Player),
-    read_next_move(CurrentRow, CurrentColumn, NextRow, NextColumn, Player),
-    update_board(CurrentRow, CurrentColumn, NextRow, NextColumn, Player),
-    next_player(Player),
-    next_state. 
+    repeat,
+        board(Board), player_turn(Player),
+        once(display_game(Board, Player)),
+        once(read_next_move(CurrentRow, CurrentColumn, NextRow, NextColumn, Player)),
+        once(update_board(CurrentRow, CurrentColumn, NextRow, NextColumn, Player)),
+        once(next_player(Player)),
+        endOfGame,
+    end_game_menu.
 
 
