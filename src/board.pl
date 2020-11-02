@@ -71,11 +71,10 @@ display_game(Board, _Player) :-
     print_score.
 
 print_board(Board) :-
-    format('\n\n========================================\n', []),
-    print_row1(Board).
+     print_row1(Board).
 
 print_row1([Row | Rest]) :-
-    format("\n\n                        X#   #O                                   |   Tabuleiro Auxiliar que indica a posicao dos              X#   #O\n", []),
+    format("\n\n\n                        X#   #O                                   |   Tabuleiro Auxiliar que indica a posicao dos              X#   #O\n", []),
     format("                      X# | ~p | #O                                 |      elementos atraves de (Row, Column)               X# | (1, 1) | #O\n", Row),
     print_row2(Rest).
 

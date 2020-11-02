@@ -28,13 +28,16 @@ save_z_belongs_to(Player) :-
 
 /* -------------------------------------- */
 
-read_next_move(CurrentRow, CurrentColumn, NextRow, NextColumn, Element) :-
+read_next_move(CurRow, CurCol, NextRow, NextCol, Element) :-
     format('----------------------------------------\n', []),
     format("\tMOVE FROM PLAYER: ~p\n", [Element]),
-    format('----------------------------------------\n\n', []),
-    ask_player_move('Current Element', CurrentRow, CurrentColumn, Element), /* Asks the curent Position of the element */
-    format('\n----------------------------------------\n\n', []),
-    ask_player_move('Next Element', NextRow, NextColumn, ' '). /* Asks the Position of the element where we want to move */
+    repeat,
+        format('----------------------------------------\n\n', []),
+        ask_player_pos('Current Element', CurRow, CurCol), /* Asks the curent Position of the element */
+        once(valid_cur_pos(CurRow, CurCol, Element)),
+        format('\n----------------------------------------\n\n', []),
+        once(ask_player_pos('Next Element', NextRow, NextCol)), /* Asks the Position  where we want to move */
+        valid_next_pos(NextRow, NextCol, CurRow, CurCol).
 
 /* -------------------------------------- 
            SELECTS THE NEXT PLAYER
