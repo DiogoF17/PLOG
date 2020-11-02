@@ -35,9 +35,28 @@ valid_next_pos(_, _, _, _) :-
     0 = 1. /* this way always returns false */
 
 move_or_eat(Row, Col, CurRow, CurCol) :-
-    is_adjacent(Row, Col, CurRow, CurCol).
+    is_adjacent(Row, Col, CurRow, CurCol), !.
+
+move_or_eat(Row, Col, CurRow, CurCol) :-
+    eat(Row, Col, CurRow, CurCol).
 
 is_adjacent(Row, Col, CurRow, CurCol) :-
     Row >= CurRow - 1, Row =< CurRow + 1,
     Col >= CurCol - 1, Col =< CurCol + 1.
+
+eat(Row, Col, CurRow, CurCol) :-
+    is_valid_eat_pos(Row, Col, CurRow, CurCol, RowElem, ColElem),
+    AuxRow is CurRow + RowElem,
+    AuxCol is CurCol + ColElem,
+    find_element(AuxRow, AuxCol, Z),
+    Z \== ' ',
+    remove_element(AuxRow, AuxCol, Z).
+
+is_valid_eat_pos(Row, Col, CurRow, CurCol, RowElem, ColElem) :-
+    RowRest is Row - CurRow,
+    ColRest is Col - CurCol,
+    RowRest mod 2 =:= 0,
+    ColRest mod 2 =:= 0,
+    RowElem is RowRest // 2,
+    ColElem is ColRest // 2.
 

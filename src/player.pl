@@ -26,6 +26,21 @@ save_z_belongs_to(Player) :-
     retract(z_belongs_to(_)),
     assert(z_belongs_to(Player)).
 
+/* saves the number of Xs eliminated */
+save_x_eliminated(Num) :-
+    retract(x_eliminated(_)),
+    assert(x_eliminated(Num)).
+
+/* saves the number of Os eliminated */
+save_o_eliminated(Num) :-
+    retract(o_eliminated(_)),
+    assert(o_eliminated(Num)).
+
+/* saves the number of Zs eliminated */
+save_z_eliminated(Num) :-
+    retract(z_eliminated(_)),
+    assert(z_eliminated(Num)).
+
 /* -------------------------------------- */
 
 read_next_move(CurRow, CurCol, NextRow, NextCol, Element) :-

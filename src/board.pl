@@ -71,7 +71,7 @@ display_game(Board, _Player) :-
     print_score.
 
 print_board(Board) :-
-     print_row1(Board).
+    print_row1(Board).
 
 print_row1([Row | Rest]) :-
     format("\n\n\n                        X#   #O                                   |   Tabuleiro Auxiliar que indica a posicao dos              X#   #O\n", []),
@@ -134,6 +134,28 @@ update_board(CurrentRow, CurrentCol, NextRow, NextCol, Element) :-
     update_pos(CurrentRow, CurrentCol, Board, NewBoard, ' '), 
     update_pos(NextRow, NextCol, NewBoard, NewBoard1, Element),
     save_board(NewBoard1).
+
+/* removes an lement from the board incrementing the number of eliminateds */
+remove_element(Row, Col, Elem) :-
+    board(Board),
+    update_pos(Row, Col, Board, NewBoard, ' '), 
+    save_board(NewBoard),
+    inc_eliminated(Elem).
+
+inc_eliminated('X') :-
+    x_eliminated(Num),
+    Num1 is Num + 1,
+    save_x_eliminated(Num1).
+
+inc_eliminated('O') :-
+    o_eliminated(Num),
+    Num1 is Num + 1,
+    save_o_eliminated(Num1).
+
+inc_eliminated('Z') :-
+    z_eliminated(Num),
+    Num1 is Num + 1,
+    save_z_eliminated(Num1).
 
 count_X_touching_border(Res) :-
     board(Board),
