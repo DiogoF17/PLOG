@@ -1,9 +1,3 @@
-:- consult('board.pl').
-:- consult('player.pl').
-:- consult('game.pl').
-:- consult('states.pl').
-:- consult('input.pl').
-
 main_menu :-
     display_main_menu,
     ask_menu_option(Option, 3),

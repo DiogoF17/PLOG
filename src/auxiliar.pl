@@ -1,11 +1,8 @@
-:- consult('board.pl').
-
 /* ===================================
             FIND
    =================================== */   
 
-find_element(ElementRow, ElementColumn, Element) :-
-    board(Board),
+find_element(ElementRow, ElementColumn, Board, Element) :-
     find_row(Board, 1, 1, ElementRow, ElementColumn, Element).
 
 find_row([_Row1 | Row2], IndexRow, IndexColumn, ElementRow, ElementColumn, Element) :-
@@ -50,5 +47,28 @@ update_col(Col, IndexCol, [H1 | T1], [H1 | T2], Element) :-
 
 update_col(Col, IndexCol, [_ | T1], [Element | T1], Element) :-
     IndexCol == Col.
+
+/* ------------------------------------ */
+
+get_eat_dir(CurRow, CurCol, NextRow, NextCol, RowElem, ColElem) :-
+    RowRest is NextRow - CurRow,
+    ColRest is NextCol - CurCol,
+    RowRest mod 2 =:= 0,
+    ColRest mod 2 =:= 0,
+    RowElem is RowRest // 2,
+    ColElem is ColRest // 2.
+
+is_consecutive(0).
+is_consecutive(1).
+is_consecutive(-1).
+
+verify_equal(Elem, Elem, 1) :- !.
+verify_equal(_, _, 0).
+
+select_last_row([_, _, _, _, _, _, _, _, _, H | _], H).
+select_first_col([H | _], H).
+
+select_last_col([H | []], H) :- !.
+select_last_col([_ | T], L) :- select_last_col(T, L).
 
 
