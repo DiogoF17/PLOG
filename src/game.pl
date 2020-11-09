@@ -19,8 +19,7 @@ play :-
         once(make_move(state(Board, Player, Player_Has_Z, X_Eliminated, O_Eliminated, Z_Eliminated), NewState)),
         assert(NewState),
         endOfGame(NewState),
-    end_game_menu,
-    retract(state(Board, Player, Player_Has_Z, X_Eliminated, O_Eliminated, Z_Eliminated)).
+    end_game_menu.
 
 
 

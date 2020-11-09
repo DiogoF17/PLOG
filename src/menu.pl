@@ -12,8 +12,8 @@ display_main_menu :-
     format('3) Jogar PC vs PC;\n', []).
 
 end_game_menu :-
-    o_eliminated(EliminatedO), x_eliminated(EliminatedX), z_eliminated(EliminatedZ),
-    count_O_touching_border(BorderO), count_X_touching_border(BorderX), count_Z_touching_border(BorderZ),
+    state(Board, _, _, EliminatedX, EliminatedO, EliminatedZ),
+    count_O_touching_border(Board, BorderO), count_X_touching_border(Board, BorderX), count_Z_touching_border(Board, BorderZ),
     PontO is (EliminatedX + EliminatedZ + (2 * BorderO)),
     PontX is (EliminatedO + EliminatedZ + (2 * BorderX)),
     PontZ is (EliminatedX + EliminatedO + (2 * BorderZ)), 

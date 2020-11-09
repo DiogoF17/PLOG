@@ -9,6 +9,17 @@ verify_menu_option(_, Option, Limit) :-
     format("\nInvalid Option! Try again: ", []), read(X),
     verify_menu_option(X, Option, Limit).
 
+ask_keep_eating(Answer) :-
+    format('\n\nKeep Eating(y/n): ', []), read(UserInput), 
+    verify_answer(UserInput, Answer).
+
+verify_answer('y', 'y') :- !.
+verify_answer('n', 'n') :- !.
+
+verify_answer(_, Answer) :-
+    format("\nInvalid Answer! Try Again(y/n): ", []), read(UserInput),
+    verify_answer(UserInput, Answer).
+
 ask_player_pos(Msg, Row, Column) :-
     format('~p Row: ', [Msg]), read(Row),
     format('~p Column: ', [Msg]), read(Column).
@@ -34,10 +45,10 @@ valid_next_pos(_, _, _, _, _, _) :-
     format("\nInvalid Next Position! \n", []),
     0 = 1. /* this way always returns false */
 
-move_or_eat(Row, Col, CurRow, CurCol, _, 0) :-
+move_or_eat(Row, Col, CurRow, CurCol, _, 'n') :-
     is_adjacent(Row, Col, CurRow, CurCol), !.
 
-move_or_eat(Row, Col, CurRow, CurCol, Board, 1) :-
+move_or_eat(Row, Col, CurRow, CurCol, Board, 'y') :-
     can_eat(Row, Col, CurRow, CurCol, Board).
 
 is_adjacent(Row, Col, CurRow, CurCol) :-
