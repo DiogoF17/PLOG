@@ -8,7 +8,7 @@
 :- consult('game_logic.pl').
 
 /* runs the main menu of the game */
-run :- main_menu.
+play :- main_menu.
 
 
 

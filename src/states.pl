@@ -4,15 +4,15 @@ SELECTS THE NEXT STATE FROM THE CURRENT STATE: MAINMENU
 
 next_state(mainMenu, Option) :-
     Option == 1,
-    play.
+    play_human_vs_human.
 
 next_state(mainMenu, Option) :-
     Option == 2,
-    play.
+    play_human_vs_pc.
 
 next_state(mainMenu, Option) :-
     Option == 3,
-    play.
+    play_pc_vs_pc.
 
 /* ----------------------------------------------
 SELECTS THE NEXT STATE FROM THE CURRENT STATE: BOARD             

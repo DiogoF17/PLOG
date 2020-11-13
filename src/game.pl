@@ -9,7 +9,7 @@ state(
     ) 
 */
 
-play :- 
+play_human_vs_human :- 
     initial(InitBoard),
     assert(state(InitBoard, 'O', 'O', 0, 0, 0)),
     repeat,
@@ -21,6 +21,14 @@ play :-
         endOfGame(NewState),
     end_game_menu.
 
+play_human_vs_pc.
+play_pc_vs_pc.
+
+
+/*
+as listas mais interiores sao para posicoes caso tenha de comer pecas
+LisOfMoves[[[CurRow, CurCol, Row1, Col1], [Row1, Col1, Row2, Col2], ...], [[CurRow, CurCol, Row1, Col1], [Row1, Col1, Row2, Col2], ...]]
+*/
 
 
 
