@@ -20,14 +20,27 @@ verify_answer(_, Answer) :-
     format("\nInvalid Answer! Try Again(y/n): ", []), read(UserInput),
     verify_answer(UserInput, Answer).
 
+ask_user_move(CurRow, CurCol, NextRow, NextCol, Board, Element, Eat) :-
+    repeat,
+        ask_cur_pos(CurRow, CurCol, Board, Element),
+        ask_next_pos(CurRow, CurCol, NextRow, NextCol, Board, Eat).
+
+ask_cur_pos(CurRow, CurCol, Board, Element) :- 
+    format('----------------------------------------\n\n', []),
+    ask_player_pos('Current Element', CurRow, CurCol), /* Asks the curent Position of the element */
+    valid_cur_pos(CurRow, CurCol, Board, Element).
+
+ask_next_pos(CurRow, CurCol, NextRow, NextCol, Board, Eat) :-
+    format('\n----------------------------------------\n\n', []),
+    ask_player_pos('Next Element', NextRow, NextCol), /* Asks the Position  where we want to move */
+    valid_next_pos(NextRow, NextCol, CurRow, CurCol, Board, Eat).
+
 ask_player_pos(Msg, Row, Column) :-
     format('~p Row: ', [Msg]), read(Row),
     format('~p Column: ', [Msg]), read(Column).
 
 valid_cur_pos(Row, Col, Board, Element) :-
-    integer(Row), integer(Col), Row >= 1, Row =< 10, Col >= 1, Col =< Row,
-    find_element(Row, Col, Board, Z), 
-    Z == Element, !,
+    verify_elem_in_pos(Row, Col, Element, Board), !,
     format("\nValid Current Position!", []).
 
 valid_cur_pos(_, _, _, Element) :-
@@ -35,9 +48,7 @@ valid_cur_pos(_, _, _, Element) :-
     0 = 1. /* this way always returns false */
 
 valid_next_pos(NextRow, NextCol, CurRow, CurCol, Board, Eat) :-
-    integer(NextRow), integer(NextCol), NextRow >= 1, NextRow =< 10, NextCol >= 1, NextCol =< NextRow,
-    find_element(NextRow, NextCol, Board, Z), 
-    Z == ' ',
+    verify_elem_in_pos(NextRow, NextCol, ' ', Board),
     move_or_eat(NextRow, NextCol, CurRow, CurCol, Board, Eat), !,
     format("\nValid Next Position!", []).
 
@@ -45,26 +56,10 @@ valid_next_pos(_, _, _, _, _, _) :-
     format("\nInvalid Next Position! \n", []),
     0 = 1. /* this way always returns false */
 
-move_or_eat(Row, Col, CurRow, CurCol, _, 'n') :-
-    is_adjacent(Row, Col, CurRow, CurCol), !.
+verify_elem_in_pos(Row, Col, Element, Board) :-
+    integer(Row), integer(Col), Row >= 1, Row =< 10, Col >= 1, Col =< Row,
+    find_element(Row, Col, Board, Z), 
+    Z == Element.
 
-move_or_eat(Row, Col, CurRow, CurCol, Board, 'y') :-
-    can_eat(Row, Col, CurRow, CurCol, Board).
-
-is_adjacent(Row, Col, CurRow, CurCol) :-
-    Row >= CurRow - 1, Row =< CurRow + 1,
-    Col >= CurCol - 1, Col =< CurCol + 1.
-
-can_eat(Row, Col, CurRow, CurCol, Board) :-
-    is_valid_eat_pos(Row, Col, CurRow, CurCol, RowElem, ColElem),
-    AuxRow is CurRow + RowElem,
-    AuxCol is CurCol + ColElem,
-    find_element(AuxRow, AuxCol, Board, Z),
-    Z \== ' '.
-
-is_valid_eat_pos(Row, Col, CurRow, CurCol, RowElem, ColElem) :-
-    get_eat_dir(CurRow, CurCol, Row, Col, RowElem, ColElem),
-    is_consecutive(RowElem),
-    is_consecutive(ColElem).
 
 

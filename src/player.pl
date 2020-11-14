@@ -1,21 +1,3 @@
-/* -------------------------------------- */
-read_move(CurRow, CurCol, NextRow, NextCol, Board, Element, Eat) :-
-    format('----------------------------------------\n', []),
-    format("\tMOVE FROM PLAYER: ~p\n", [Element]),
-    repeat,
-        read_cur_pos(CurRow, CurCol, Board, Element),
-        read_next_pos(CurRow, CurCol, NextRow, NextCol, Board, Eat).
-
-read_cur_pos(CurRow, CurCol, Board, Element) :- 
-    format('----------------------------------------\n\n', []),
-    ask_player_pos('Current Element', CurRow, CurCol), /* Asks the curent Position of the element */
-    valid_cur_pos(CurRow, CurCol, Board, Element).
-
-read_next_pos(CurRow, CurCol, NextRow, NextCol, Board, Eat) :-
-    format('\n----------------------------------------\n\n', []),
-    ask_player_pos('Next Element', NextRow, NextCol), /* Asks the Position  where we want to move */
-    valid_next_pos(NextRow, NextCol, CurRow, CurCol, Board, Eat).
-
 /* -------------------------------------- 
            SELECTS THE NEXT PLAYER
    -------------------------------------- */ 

@@ -50,18 +50,6 @@ update_col(Col, IndexCol, [_ | T1], [Element | T1], Element) :-
 
 /* ------------------------------------ */
 
-get_eat_dir(CurRow, CurCol, NextRow, NextCol, RowElem, ColElem) :-
-    RowRest is NextRow - CurRow,
-    ColRest is NextCol - CurCol,
-    RowRest mod 2 =:= 0,
-    ColRest mod 2 =:= 0,
-    RowElem is RowRest // 2,
-    ColElem is ColRest // 2.
-
-is_consecutive(0).
-is_consecutive(1).
-is_consecutive(-1).
-
 verify_equal(Elem, Elem, 1) :- !.
 verify_equal(_, _, 0).
 
