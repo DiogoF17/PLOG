@@ -9,11 +9,25 @@ next_state(mainMenu, Option) :-
 
 next_state(mainMenu, Option) :-
     Option == 2,
-    play_human_vs_pc.
+    menu_select_difficulty(OptionDifficulty),
+    menu_select_piece(OptionPiece),
+    get_piece(OptionPiece, Piece),
+    get_difficulty(OptionDifficulty, Difficulty),
+    initial(State),
+    play_human_vs_pc(State, Piece, Difficulty).
 
 next_state(mainMenu, Option) :-
     Option == 3,
-    play_pc_vs_pc.
+    menu_select_difficulty(Difficulty),
+    initial(State),
+    play_pc_vs_pc(State, Difficulty).
+
+get_piece(1, 'O').
+get_piece(2, 'X').
+
+get_difficulty(1, 'Easy').
+get_difficulty(2, 'Medium').
+get_difficulty(3, 'Hard').
 
 /* ----------------------------------------------
 SELECTS THE NEXT STATE FROM THE CURRENT STATE: BOARD             

@@ -31,9 +31,8 @@ next_play_human_vs_human(State) :-
 /* 
  ===========================================================
 */
-
 /*               GameState, PC -> define as pecas que o pc controla
-play_human_vs_pc(State, PC) :-
+play_human_vs_pc(State, PC, Level) :-
     display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
     get_move(),
     move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
@@ -48,7 +47,7 @@ play_human_vs_pc(State, PC) :-
 */
 
 /*
-play_pc_vs_pc(State) :-
+play_pc_vs_pc(State, Level) :-
     display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
     pc_move(),
     move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
