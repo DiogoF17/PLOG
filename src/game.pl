@@ -9,9 +9,13 @@ state(
     ) 
 */
 
+/* 
+ ===========================================================
+*/
+
 play_human_vs_human(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated)) :- 
     display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
-    read_move(Board, Player, Move),
+    user_move(Board, Player, Move),
     move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
         Move, 
         NewState),
@@ -24,13 +28,33 @@ next_play_human_vs_human(State) :-
 next_play_human_vs_human(State) :-
     play_human_vs_human(State).
 
-play_human_vs_pc.
-play_pc_vs_pc.
+/* 
+ ===========================================================
+*/
 
+/*               GameState, PC -> define as pecas que o pc controla
+play_human_vs_pc(State, PC) :-
+    display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
+    get_move(),
+    move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
+        Move, 
+        NewState),
+    next_play_human_vs_pc(NewState).
+
+*/
+
+/* 
+ ===========================================================
+*/
 
 /*
-as listas mais interiores sao para posicoes caso tenha de comer pecas
-LisOfMoves[[[CurRow, CurCol, Row1, Col1], [Row1, Col1, Row2, Col2], ...], [[CurRow, CurCol, Row1, Col1], [Row1, Col1, Row2, Col2], ...]]
+play_pc_vs_pc(State) :-
+    display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
+    pc_move(),
+    move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
+        Move, 
+        NewState),
+    next_play_pc_vs_pc(NewState).
 */
 
 
