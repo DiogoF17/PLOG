@@ -4,7 +4,8 @@ SELECTS THE NEXT STATE FROM THE CURRENT STATE: MAINMENU
 
 next_state(mainMenu, Option) :-
     Option == 1,
-    play_human_vs_human.
+    initial(State),
+    play_human_vs_human(State).
 
 next_state(mainMenu, Option) :-
     Option == 2,
@@ -22,28 +23,40 @@ SELECTS THE NEXT STATE FROM THE CURRENT STATE: BOARD
 */
 
 /* All pieces were eliminated! */
-endOfGame(state(_, _, _, _, O_Eliminated, _)):-
-    O_Eliminated =:= 10.
+game_over(state(Board, _, _, XEliminated, OEliminated, ZEliminated), Winner):-
+    OEliminated =:= 10, !,
+    calcElemPontuation(Board, XEliminated, OEliminated, ZEliminated, PontX, PontO, PontZ),
+    calcWinner(PontX, PontO, PontZ, Winner).
 
-endOfGame(state(_, _, _, X_Eliminated, _, _)):-
-    X_Eliminated =:= 10.
+game_over(state(Board, _, _, XEliminated, OEliminated, ZEliminated), Winner):-
+    XEliminated =:= 10, !,
+    calcElemPontuation(Board, XEliminated, OEliminated, ZEliminated, PontX, PontO, PontZ),
+    calcWinner(PontX, PontO, PontZ, Winner).
 
-endOfGame(state(_, _, _, _, _, Z_Eliminated)):-
-    Z_Eliminated =:= 10.
+game_over(state(Board, _, _, XEliminated, OEliminated, ZEliminated), Winner):-
+    ZEliminated =:= 10, !,
+    calcElemPontuation(Board, XEliminated, OEliminated, ZEliminated, PontX, PontO, PontZ),
+    calcWinner(PontX, PontO, PontZ, Winner).
 
 /* All remaining pieces are touching the border of it's color */
 
-endOfGame(state(Board, _, _, _, O_Eliminated, _)):-
-    Remaining is 10 - O_Eliminated,
+game_over(state(Board, _, _, XEliminated, OEliminated, ZEliminated), Winner):-
+    Remaining is 10 - OEliminated,
     count_O_touching_border(Board, Num),
-    Remaining =:= Num.
+    Remaining =:= Num, !,
+    calcElemPontuation(Board, XEliminated, OEliminated, ZEliminated, PontX, PontO, PontZ),
+    calcWinner(PontX, PontO, PontZ, Winner).
 
-endOfGame(state(Board, _, _, X_Eliminated, _, _)):-
-    Remaining is 10 - X_Eliminated,
+game_over(state(Board, _, _, XEliminated, OEliminated, ZEliminated), Winner):-
+    Remaining is 10 - XEliminated,
     count_X_touching_border(Board, Num),
-    Remaining =:= Num.
+    Remaining =:= Num, !,
+    calcElemPontuation(Board, XEliminated, OEliminated, ZEliminated, PontX, PontO, PontZ),
+    calcWinner(PontX, PontO, PontZ, Winner).
 
-endOfGame(state(Board, _, _, _, _, Z_Eliminated)):-
-    Remaining is 8 - Z_Eliminated,
+game_over(state(Board, _, _, XEliminated, OEliminated, ZEliminated), Winner):-
+    Remaining is 8 - ZEliminated,
     count_Z_touching_border(Board, Num),
-    Remaining =:= Num.
+    Remaining =:= Num,
+    calcElemPontuation(Board, XEliminated, OEliminated, ZEliminated, PontX, PontO, PontZ),
+    calcWinner(PontX, PontO, PontZ, Winner).

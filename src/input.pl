@@ -26,12 +26,12 @@ ask_user_move(CurRow, CurCol, NextRow, NextCol, Board, Element, Eat) :-
         ask_next_pos(CurRow, CurCol, NextRow, NextCol, Board, Eat).
 
 ask_cur_pos(CurRow, CurCol, Board, Element) :- 
-    format('----------------------------------------\n\n', []),
+    format('------------------------------\n\n', []),
     ask_player_pos('Current Element', CurRow, CurCol), /* Asks the curent Position of the element */
     valid_cur_pos(CurRow, CurCol, Board, Element).
 
 ask_next_pos(CurRow, CurCol, NextRow, NextCol, Board, Eat) :-
-    format('\n----------------------------------------\n\n', []),
+    format('\n------------------------------\n\n', []),
     ask_player_pos('Next Element', NextRow, NextCol), /* Asks the Position  where we want to move */
     valid_next_pos(NextRow, NextCol, CurRow, CurCol, Board, Eat).
 

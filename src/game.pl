@@ -9,19 +9,20 @@ state(
     ) 
 */
 
-play_human_vs_human :- 
-    initial(InitBoard),
-    assert(state(InitBoard, 'O', 'O', 0, 0, 0)),
-    repeat,
-        retract(state(Board, Player, Player_Has_Z, X_Eliminated, O_Eliminated, Z_Eliminated)),
-        once(display_game(Board, Player)),
-        once(read_move(Board, Player, Move)),
-        once(move(state(Board, Player, Player_Has_Z, X_Eliminated, O_Eliminated, Z_Eliminated),
-                  Move, NewState)),
-        once(display_pontuations(O_Eliminated, X_Eliminated, Z_Eliminated, Player_Has_Z)),
-        assert(NewState),
-        endOfGame(NewState),
-    end_game_menu.
+play_human_vs_human(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated)) :- 
+    display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
+    read_move(Board, Player, Move),
+    move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
+        Move, 
+        NewState),
+    next_play_human_vs_human(NewState).
+
+next_play_human_vs_human(State) :-
+    game_over(State, Winner), !,
+    display_end_game_menu(Winner).
+
+next_play_human_vs_human(State) :-
+    play_human_vs_human(State).
 
 play_human_vs_pc.
 play_pc_vs_pc.

@@ -1,5 +1,8 @@
 /* when we start to play the board is in this state */
-initial([
+initial(state(Board, 'O', 'O', 0, 0, 0)) :-
+    initialBoard(Board).
+
+initialBoard([
        [' '],
        [' ', ' '],
        ['Z', ' ', 'Z'],
@@ -64,10 +67,13 @@ final([
                 DISPLAY FUNCTIONS
    --------------------------------------------- */
 
-display_game(Board, Player) :- 
-    print_row1(Board),
-    format('----------------------------------------\n', []),
-    format("\tPLAYER TURN: ~p\n", [Player]).
+display_game(state(Board, _, ZPlayer, XEliminated, OEliminated, ZEliminated), Player) :- 
+    display_board(Board),
+    display_number_eliminated(OEliminated, XEliminated, ZEliminated, ZPlayer),
+    display_player_turn(Player).
+
+display_board(Board) :-
+    print_row1(Board).
 
 print_row1([Row | Rest]) :-
     format("\n----------------------------------------------------------------------------------------------------------------\n", []),
@@ -123,7 +129,7 @@ print_row10([Row | _Rest]) :-
     format("                        Z      Z      Z      Z      Z      Z      Z      Z      Z      Z\n\n", []).
 
 
-display_pontuations(O, X, Z, ZPlayer) :-
+display_number_eliminated(O, X, Z, ZPlayer) :-
     format("------------------------------\n", []),
     format("  Number of Eliminated Elements \n", []),
     format("------------------------------\n", []),
@@ -132,4 +138,7 @@ display_pontuations(O, X, Z, ZPlayer) :-
     format("  Z: ~p                       \n", [Z]),
     format("------------------------------\n", []),
     format("  Z belongs to -> ~p                       \n", [ZPlayer]),
-    format("------------------------------\n\n", []).
+    format("------------------------------\n", []).
+
+display_player_turn(Player) :-
+     format("  PLAYER TURN: ~p\n", [Player]).

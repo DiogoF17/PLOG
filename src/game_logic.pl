@@ -24,18 +24,14 @@ execute_moves(Board, Player, XEliminated, OEliminated, ZEliminated,
               [[CurRow, CurCol, NextRow, NextCol] | NextPos], EatMove,
               NewBoard, NewXEliminated, NewOEliminated, NewZEliminated) :-
 
-    format("1\n", []),
     execute_move(EatMove, CurRow, CurCol, NextRow, NextCol, Player, 
              Board, Board1, X1Eliminated, O1Eliminated, Z1Eliminated),
-    format("2\n", []),
     X2Eliminated is X1Eliminated + XEliminated,
     O2Eliminated is O1Eliminated + OEliminated,
     Z2Eliminated is Z1Eliminated + ZEliminated,
-    format("3\n", []),
     execute_moves(Board1, Player, X2Eliminated, O2Eliminated, Z2Eliminated,
                   NextPos, EatMove,
-                  NewBoard, NewXEliminated, NewOEliminated, NewZEliminated),
-    format("4\n", []).
+                  NewBoard, NewXEliminated, NewOEliminated, NewZEliminated).
 
 /* ---------------------------------------------------------------- */
 /*                          MOVES                                   */
@@ -128,12 +124,12 @@ keep_eating('n', _, _, Board3, Board3, _, [[]]).
 
 /* in case of the move of the user ate a piece, asks to the user to keep eating
    if the answer is no than return the values*/
-keep_eating('y', CurRow, CurCol, Board3, NewBoard, Player, [H | T]) :-
+keep_eating('y', CurRow, CurCol, Board, NewBoard, Player, [H | T]) :-
 
     repeat,
         ask_keep_eating(Answer),
-        process_answer(Answer, CurRow, CurCol, NextRow, NextCol, Board3, Board4, Player, H),
-    keep_eating(Answer, NextRow, NextCol, Board4, NewBoard, Player, T).
+        process_answer(Answer, CurRow, CurCol, NextRow, NextCol, Board, Board1, Player, H),
+    keep_eating(Answer, NextRow, NextCol, Board1, NewBoard, Player, T).
 
 /* ------------------- */
 
@@ -141,7 +137,7 @@ process_answer('n', _, _, _, _, Board, Board, _, []) :- !.
 
 /* in case of the move of the user ate a piece */
 process_answer('y', CurRow, CurCol, NextRow, NextCol, Board, NewBoard, Player, [CurRow, CurCol, NextRow, NextCol]) :-
-    display_game(Board, Player),
+    display_board(Board),
     format('----------------------------------------\n\n', []),
     format('Current Row: ~p\nCurrent Column: ~p\n\n', [CurRow, CurCol]),
     ask_player_pos('Next Element', NextRow, NextCol), /* Asks the Position  where we want to move */

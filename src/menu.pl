@@ -11,50 +11,36 @@ display_main_menu :-
     format('2) Jogar 1 vs PC;\n', []),
     format('3) Jogar PC vs PC;\n', []).
 
-end_game_menu :-
-    state(Board, _, _, EliminatedX, EliminatedO, EliminatedZ),
-    count_O_touching_border(Board, BorderO), count_X_touching_border(Board, BorderX), count_Z_touching_border(Board, BorderZ),
-    PontO is (EliminatedX + EliminatedZ + (2 * BorderO)),
-    PontX is (EliminatedO + EliminatedZ + (2 * BorderX)),
-    PontZ is (EliminatedX + EliminatedO + (2 * BorderZ)), 
-    display_end_game_menu(PontO, PontX, PontZ).
-
-/* The Os win */
-display_end_game_menu(O, X, Z) :-
-    O > X, O > Z, !,
+display_end_game_menu(' ') :-
+    !,
     format('\n\n========================================\n', []),
     format('\tGAME OVER\n', []),
     format('========================================\n', []),
-    format('CONGRATULATIONS O, YOU WIN!\n\n', []),
-    format('O: ~p / X: ~p / Z: ~p\n', [O, X, Z]),
+    format("THAT'S A TIE!\n", []),
     format('========================================\n', []).
 
-/* The Xs win */
-display_end_game_menu(O, X, Z) :-
-    X > O, X > Z, !,
+display_end_game_menu(Winner) :-
     format('\n\n========================================\n', []),
     format('\tGAME OVER\n', []),
     format('========================================\n', []),
-    format('CONGRATULATIONS X, YOU WIN!\n\n', []),
-    format('O: ~p / X: ~p / Z: ~p\n', [O, X, Z]),
+    format('CONGRATULATIONS ~p, YOU WIN!\n', [Winner]),
     format('========================================\n', []).
 
-/* The Zs win */
-display_end_game_menu(O, X, Z) :-
-    Z > O, Z > X, !,
-    format('\n\n========================================\n', []),
-    format('\tGAME OVER\n', []),
-    format('========================================\n', []),
-    format('CONGRATULATIONS Z, YOU WIN!\n\n', []),
-    format('O: ~p / X: ~p / Z: ~p\n', [O, X, Z]),
-    format('========================================\n', []).
+calcElemPontuation(Board, XEliminated, OEliminated, ZEliminated, PontX, PontO, PontZ) :-
+    count_X_touching_border(Board, BorderX), 
+    count_O_touching_border(Board, BorderO), 
+    count_Z_touching_border(Board, BorderZ),
+    PontX is (OEliminated + ZEliminated + (2 * BorderX)),
+    PontO is (XEliminated + ZEliminated + (2 * BorderO)),
+    PontZ is (XEliminated + OEliminated + (2 * BorderZ)).
 
-/* The Zs win */
-display_end_game_menu(O, X, Z) :-
-    format('\n\n========================================\n', []),
-    format('\tGAME OVER\n', []),
-    format('========================================\n', []),
-    format("THAT'S A TIE!\n\n", []),
-    format('O: ~p / X: ~p / Z: ~p\n', [O, X, Z]),
-    format('========================================\n', []).
+calcWinner(PontX, PontO, PontZ, 'O') :-
+    PontO > PontX, PontO > PontZ, !.
 
+calcWinner(PontX, PontO, PontZ, 'X') :-
+    PontX > PontO, PontX > PontZ, !.
+
+calcWinner(PontX, PontO, PontZ, 'Z') :-
+    PontZ > PontO, PontZ > PontX, !.
+
+calcWinner(_, _, _, ' ').
