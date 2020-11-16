@@ -13,49 +13,21 @@ state(
  ===========================================================
 */
 
-play_human_vs_human(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated)) :- 
+play(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), PC, Level) :- 
     display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
-    user_move(Board, Player, Move),
+    get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
+            PC, Level, Move),
     move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
         Move, 
         NewState),
-    next_play_human_vs_human(NewState).
+    next_play(NewState, PC, Level).
 
-next_play_human_vs_human(State) :-
+next_play(State, _, _) :-
     game_over(State, Winner), !,
     display_end_game_menu(Winner).
 
-next_play_human_vs_human(State) :-
-    play_human_vs_human(State).
-
-/* 
- ===========================================================
-*/
-/*               GameState, PC -> define as pecas que o pc controla
-play_human_vs_pc(State, PC, Level) :-
-    display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
-    get_move(),
-    move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
-        Move, 
-        NewState),
-    next_play_human_vs_pc(NewState).
-
-*/
-
-/* 
- ===========================================================
-*/
-
-/*
-play_pc_vs_pc(State, Level) :-
-    display_game(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player),
-    pc_move(),
-    move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
-        Move, 
-        NewState),
-    next_play_pc_vs_pc(NewState).
-*/
-
+next_play(State, PC, Level) :-
+    play(State, PC, Level).
 
 
 

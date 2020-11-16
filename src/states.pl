@@ -5,7 +5,7 @@ SELECTS THE NEXT STATE FROM THE CURRENT STATE: MAINMENU
 next_state(mainMenu, Option) :-
     Option == 1,
     initial(State),
-    play_human_vs_human(State).
+    play(State, 'None', 1).
 
 next_state(mainMenu, Option) :-
     Option == 2,
@@ -14,13 +14,13 @@ next_state(mainMenu, Option) :-
     get_piece(OptionPiece, Piece),
     get_difficulty(OptionDifficulty, Difficulty),
     initial(State),
-    play_human_vs_pc(State, Piece, Difficulty).
+    play(State, Piece, Difficulty).
 
 next_state(mainMenu, Option) :-
     Option == 3,
     menu_select_difficulty(Difficulty),
     initial(State),
-    play_pc_vs_pc(State, Difficulty).
+    play(State, 'All', Difficulty).
 
 get_piece(1, 'O').
 get_piece(2, 'X').

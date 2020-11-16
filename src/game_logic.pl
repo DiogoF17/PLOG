@@ -1,13 +1,21 @@
-/* get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player, Level, Move) :-
+get_move(state(Board, Player, _, _, _, _), 'None', _, Move) :-
     !,
-    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, ListOfMoves).
+    user_move(Board, Player, Move).
+
+get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), 'All', Level, Move) :-
+    !,
+    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move).
+
+get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player, Level, Move) :-
+    !,
+    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move).
 
 get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), ZPlayer, Level, Move) :-
     !,
-    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, ListOfMoves).
+    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move).
 
-get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), _, _, Move) :-
-    user_move(Board, Player, Move). */
+get_move(state(Board, Player, _, _, _, _), _, _, Move) :-
+    user_move(Board, Player, Move).
 
 /* takes the current state and produces a new one according to the move*/
 user_move(Board, Player, [[CurRow, CurCol, NextRow, NextCol] | Tail]) :-
@@ -17,7 +25,7 @@ user_move(Board, Player, [[CurRow, CurCol, NextRow, NextCol] | Tail]) :-
     keep_eating(EatMove, NextRow, NextCol, Board1, _, Player, Tail).
 
 /*
-pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, ListOfMoves) :-
+pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move) :-
     valid_moves(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player, ListOfMoves),
     calc_values(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), _, ListOfMoves, MovesWithValues),
     choose_move(GameState, Player, Level, -Move).
@@ -95,9 +103,7 @@ eat_elem('y', CurRow, CurCol, NextRow, NextCol,
         Board, NewBoard, XEliminated, OEliminated, ZEliminated) :-
 
     get_eat_dir(CurRow, CurCol, NextRow, NextCol, RowElem, ColElem),
-    format("11\n", []),
     AuxRow is CurRow + RowElem, /* gets the row of the piece that we want to eat */
-    format("12\n", []),
     AuxCol is CurCol + ColElem, /* gets the column of the piece that we want to eat */
     find_element(AuxRow, AuxCol, Board, ElementEaten),
     update_pos(AuxRow, AuxCol, Board, NewBoard, ' '),
