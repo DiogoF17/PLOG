@@ -20,20 +20,20 @@ verify_answer(_, Answer) :-
     format("\nInvalid Answer! Try Again(y/n): ", []), read(UserInput),
     verify_answer(UserInput, Answer).
 
-ask_user_move(CurRow, CurCol, NextRow, NextCol, Board, Element, Eat) :-
+ask_user_move(Row, Col, NextRow, NextCol, Board, Element, Eat) :-
     repeat,
-        ask_cur_pos(CurRow, CurCol, Board, Element),
-        ask_next_pos(CurRow, CurCol, NextRow, NextCol, Board, Eat).
+        ask_cur_pos(Row, Col, Board, Element),
+        ask_next_pos(Row, Col, NextRow, NextCol, Board, Eat).
 
-ask_cur_pos(CurRow, CurCol, Board, Element) :- 
+ask_cur_pos(Row, Col, Board, Element) :- 
     format('------------------------------\n\n', []),
-    ask_player_pos('Current Element', CurRow, CurCol), /* Asks the curent Position of the element */
-    valid_cur_pos(CurRow, CurCol, Board, Element).
+    ask_player_pos('Current Element', Row, Col), /* Asks the curent Position of the element */
+    valid_cur_pos(Row, Col, Board, Element).
 
-ask_next_pos(CurRow, CurCol, NextRow, NextCol, Board, Eat) :-
+ask_next_pos(Row, Col, NextRow, NextCol, Board, Eat) :-
     format('\n------------------------------\n\n', []),
     ask_player_pos('Next Element', NextRow, NextCol), /* Asks the Position  where we want to move */
-    valid_next_pos(NextRow, NextCol, CurRow, CurCol, Board, Eat).
+    valid_next_pos(NextRow, NextCol, Row, Col, Board, Eat).
 
 ask_player_pos(Msg, Row, Column) :-
     format('~p Row: ', [Msg]), read(Row),
@@ -47,19 +47,14 @@ valid_cur_pos(_, _, _, Element) :-
     format("\nInvalid Current Position for Element: ~p\n", [Element]),
     0 = 1. /* this way always returns false */
 
-valid_next_pos(NextRow, NextCol, CurRow, CurCol, Board, Eat) :-
+valid_next_pos(NextRow, NextCol, Row, Col, Board, Eat) :-
     verify_elem_in_pos(NextRow, NextCol, ' ', Board),
-    move_or_eat(NextRow, NextCol, CurRow, CurCol, Board, Eat), !,
+    type_of_move(Row, Col, NextRow, NextCol, Board, Eat), !,
     format("\nValid Next Position!", []).
 
 valid_next_pos(_, _, _, _, _, _) :-
     format("\nInvalid Next Position! \n", []),
     0 = 1. /* this way always returns false */
-
-verify_elem_in_pos(Row, Col, Element, Board) :-
-    integer(Row), integer(Col), Row >= 1, Row =< 10, Col >= 1, Col =< Row,
-    find_element(Row, Col, Board, Z), 
-    Z == Element.
 
 
 

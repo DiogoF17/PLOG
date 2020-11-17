@@ -28,8 +28,8 @@ find_column([H | _T], _IndexRow, IndexColumn, _ElementRow, ElementColumn, Elemen
             SUBSTITUTE
    =================================== */         
 
-update_pos(Row, Col, CurrentBoard, NewBoard, Element) :-
-    update_line(Row, Col, 1, 1, CurrentBoard, NewBoard, Element).
+update_pos(Row, Col, Board, NewBoard, Element) :-
+    update_line(Row, Col, 1, 1, Board, NewBoard, Element).
 
 update_line(Row, Col, IndexRow, IndexCol, [H1 | T1], [H1 | T2], Element) :-
     IndexRow < Row,
@@ -63,44 +63,101 @@ verify_equal(_, _, 0).
 
 /* ------------------------------------ */
 
-move_or_eat(Row, Col, CurRow, CurCol, _, 'n') :-
-    is_adjacent(Row, Col, CurRow, CurCol), !.
+verify_elem_in_pos(Row, Col, Element, Board) :-
+    integer(Row), integer(Col), Row >= 1, Row =< 10, Col >= 1, Col =< Row,
+    find_element(Row, Col, Board, Z), 
+    Z == Element.
 
-move_or_eat(Row, Col, CurRow, CurCol, Board, 'y') :-
-    can_eat(Row, Col, CurRow, CurCol, Board).
+/* ------------------------------------ */
 
-verifyEatMove([[CurRow, CurCol, NextRow, NextCol] | _], Board, 'y') :-
-    can_eat(NextRow, NextCol, CurRow, CurCol, Board), !.
+verifyEatMove([[Row, Col, NextRow, NextCol] | _], Board, EatMove) :-
+    type_of_move(Row, Col, NextRow, NextCol, Board, EatMove).
 
-verifyEatMove(_, _, 'n').
+/*------- NORMAL MOVES --------*/
 
-can_eat(Row, Col, CurRow, CurCol, Board) :-
-    is_valid_eat_pos(Row, Col, CurRow, CurCol, RowElem, ColElem),
-    AuxRow is CurRow + RowElem,
-    AuxCol is CurCol + ColElem,
-    find_element(AuxRow, AuxCol, Board, Z),
-    Z \== ' '.
+type_of_move(Row, Col, NextRow, NextCol, _, 'n') :-
+    AuxCol is Col - 1,
+    NextRow = Row, NextCol = AuxCol, !.
 
-is_valid_eat_pos(Row, Col, CurRow, CurCol, RowElem, ColElem) :-
-    get_eat_dir(CurRow, CurCol, Row, Col, RowElem, ColElem),
-    is_consecutive(RowElem),
-    is_consecutive(ColElem).
+type_of_move(Row, Col, NextRow, NextCol, _, 'n') :-
+    AuxCol is Col + 1,
+    NextRow = Row, NextCol = AuxCol, !.
 
-get_eat_dir(CurRow, CurCol, NextRow, NextCol, RowElem, ColElem) :-
-    RowRest is NextRow - CurRow,
-    ColRest is NextCol - CurCol,
+type_of_move(Row, Col, NextRow, NextCol, _, 'n') :-
+    AuxRow is Row - 1,
+    AuxCol is Col - 1,
+    NextRow = AuxRow, NextCol = AuxCol, !.
+
+type_of_move(Row, Col, NextRow, NextCol, _, 'n') :-
+    AuxRow is Row - 1,
+    NextRow = AuxRow, NextCol = Col, !.
+
+type_of_move(Row, Col, NextRow, NextCol, _, 'n') :-
+    AuxRow is Row + 1,
+    NextRow = AuxRow, NextCol = Col, !.
+
+type_of_move(Row, Col, NextRow, NextCol, _, 'n') :-
+    AuxRow is Row + 1,
+    AuxCol is Col + 1,
+    NextRow = AuxRow, NextCol = AuxCol, !.
+
+/*------- EAT MOVES --------*/
+
+type_of_move(Row, Col, NextRow, NextCol, Board, 'y') :-
+    AuxCol is Col - 2,
+    NextRow = Row, NextCol = AuxCol, !,
+    AuxCol1 is Col - 1,
+    find_element(Row, AuxCol1, Board, Elem),
+    Elem \= ' '.
+
+type_of_move(Row, Col, NextRow, NextCol, Board, 'y') :-
+    AuxCol is Col + 2,
+    NextRow = Row, NextCol = AuxCol, !,
+    AuxCol1 is Col + 1,
+    find_element(Row, AuxCol1, Board, Elem),
+    Elem \= ' '.
+
+type_of_move(Row, Col, NextRow, NextCol, Board, 'y') :-
+    AuxRow is Row - 2,
+    AuxCol is Col - 2,
+    NextRow = AuxRow, NextCol = AuxCol, !,
+    AuxRow1 is Row - 1,
+    AuxCol1 is Col - 1,
+    find_element(AuxRow1, AuxCol1, Board, Elem),
+    Elem \= ' '.
+
+type_of_move(Row, Col, NextRow, NextCol, Board, 'y') :-
+    AuxRow is Row - 2,
+    NextRow = AuxRow, NextCol = Col, !,
+    AuxRow1 is Row - 1,
+    find_element(AuxRow1, Col, Board, Elem),
+    Elem \= ' '.
+
+type_of_move(Row, Col, NextRow, NextCol, Board, 'y') :-
+    AuxRow is Row + 2,
+    NextRow = AuxRow, NextCol = Col, !,
+    AuxRow1 is Row + 1,
+    find_element(AuxRow1, Col, Board, Elem),
+    Elem \= ' '.
+
+type_of_move(Row, Col, NextRow, NextCol, Board, 'y') :-
+    AuxRow is Row + 2,
+    AuxCol is Col + 2,
+    NextRow = AuxRow, NextCol = AuxCol,
+    AuxRow1 is Row + 1,
+    AuxCol1 is Col + 1,
+    find_element(AuxRow1, AuxCol1, Board, Elem),
+    Elem \= ' '.
+
+/* ------------------------------------ */
+
+get_eat_dir(Row, Col, NextRow, NextCol, RowElem, ColElem) :-
+    RowRest is NextRow - Row,
+    ColRest is NextCol - Col,
     RowRest mod 2 =:= 0,
     ColRest mod 2 =:= 0,
     RowElem is RowRest // 2,
     ColElem is ColRest // 2.
-
-is_adjacent(Row, Col, CurRow, CurCol) :-
-    Row >= CurRow - 1, Row =< CurRow + 1,
-    Col >= CurCol - 1, Col =< CurCol + 1.
-
-is_consecutive(0).
-is_consecutive(1).
-is_consecutive(-1).
 
 /* ------------------------------------ */
 

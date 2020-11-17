@@ -18,9 +18,9 @@ get_move(state(Board, Player, _, _, _, _), _, _, Move) :-
     user_move(Board, Player, Move).
 
 /* takes the current state and produces a new one according to the move*/
-user_move(Board, Player, [[CurRow, CurCol, NextRow, NextCol] | Tail]) :-
-    ask_user_move(CurRow, CurCol, NextRow, NextCol, Board, Player, EatMove),
-    execute_move(EatMove, CurRow, CurCol, NextRow, NextCol, Player, 
+user_move(Board, Player, [[Row, Col, NextRow, NextCol] | Tail]) :-
+    ask_user_move(Row, Col, NextRow, NextCol, Board, Player, EatMove),
+    execute_move(EatMove, Row, Col, NextRow, NextCol, Player, 
              Board, Board1, _, _, _),
     keep_eating(EatMove, NextRow, NextCol, Board1, _, Player, Tail).
 
@@ -60,10 +60,10 @@ execute_moves(Board, _, XEliminated, OEliminated, ZEliminated,
               Board, XEliminated, OEliminated, ZEliminated).
 
 execute_moves(Board, Player, XEliminated, OEliminated, ZEliminated,
-              [[CurRow, CurCol, NextRow, NextCol] | NextPos], EatMove,
+              [[Row, Col, NextRow, NextCol] | NextPos], EatMove,
               NewBoard, NewXEliminated, NewOEliminated, NewZEliminated) :-
 
-    execute_move(EatMove, CurRow, CurCol, NextRow, NextCol, Player, 
+    execute_move(EatMove, Row, Col, NextRow, NextCol, Player, 
              Board, Board1, X1Eliminated, O1Eliminated, Z1Eliminated),
     X2Eliminated is X1Eliminated + XEliminated,
     O2Eliminated is O1Eliminated + OEliminated,
@@ -72,11 +72,11 @@ execute_moves(Board, Player, XEliminated, OEliminated, ZEliminated,
                   NextPos, EatMove,
                   NewBoard, NewXEliminated, NewOEliminated, NewZEliminated).
 
-execute_move(EatMove, CurRow, CurCol, NextRow, NextCol, Player,
+execute_move(EatMove, Row, Col, NextRow, NextCol, Player,
              Board, NewBoard, XEliminated, OEliminated, ZEliminated) :-
 
-    remove_elem(CurRow, CurCol, Board, Board1),
-    eat_elem(EatMove, CurRow, CurCol, NextRow, NextCol, 
+    remove_elem(Row, Col, Board, Board1),
+    eat_elem(EatMove, Row, Col, NextRow, NextCol, 
              Board1, Board2, XEliminated, OEliminated, ZEliminated),
     insert_elem(NextRow, NextCol, Board2, NewBoard, Player).
 
@@ -99,12 +99,12 @@ eat_elem('n', _, _, _, _,
 /* removes the element in the specified position incrementing the value of eaten peaces 
    of that specie and also changes z owner
    first argument indicates that in the movement of the player he eat a piece*/
-eat_elem('y', CurRow, CurCol, NextRow, NextCol, 
+eat_elem('y', Row, Col, NextRow, NextCol, 
         Board, NewBoard, XEliminated, OEliminated, ZEliminated) :-
 
-    get_eat_dir(CurRow, CurCol, NextRow, NextCol, RowElem, ColElem),
-    AuxRow is CurRow + RowElem, /* gets the row of the piece that we want to eat */
-    AuxCol is CurCol + ColElem, /* gets the column of the piece that we want to eat */
+    get_eat_dir(Row, Col, NextRow, NextCol, RowElem, ColElem),
+    AuxRow is Row + RowElem, /* gets the row of the piece that we want to eat */
+    AuxCol is Col + ColElem, /* gets the column of the piece that we want to eat */
     find_element(AuxRow, AuxCol, Board, ElementEaten),
     update_pos(AuxRow, AuxCol, Board, NewBoard, ' '),
     get_eliminated(ElementEaten, XEliminated, OEliminated, ZEliminated).
@@ -118,26 +118,26 @@ keep_eating('n', _, _, Board3, Board3, _, [[]]).
 
 /* in case of the move of the user ate a piece, asks to the user to keep eating
    if the answer is no than return the values*/
-keep_eating('y', CurRow, CurCol, Board, NewBoard, Player, [H | T]) :-
+keep_eating('y', Row, Col, Board, NewBoard, Player, [H | T]) :-
 
     repeat,
         ask_keep_eating(Answer),
-        process_answer(Answer, CurRow, CurCol, NextRow, NextCol, Board, Board1, Player, H),
+        process_answer(Answer, Row, Col, NextRow, NextCol, Board, Board1, Player, H),
     keep_eating(Answer, NextRow, NextCol, Board1, NewBoard, Player, T).
 
 
 process_answer('n', _, _, _, _, Board, Board, _, []) :- !.
 
 /* in case of the move of the user ate a piece */
-process_answer('y', CurRow, CurCol, NextRow, NextCol, Board, NewBoard, Player, [CurRow, CurCol, NextRow, NextCol]) :-
+process_answer('y', Row, Col, NextRow, NextCol, Board, NewBoard, Player, [Row, Col, NextRow, NextCol]) :-
     display_board(Board),
     format('----------------------------------------\n\n', []),
-    format('Current Row: ~p\nCurrent Column: ~p\n\n', [CurRow, CurCol]),
+    format('Current Row: ~p\nCurrent Column: ~p\n\n', [Row, Col]),
     ask_player_pos('Next Element', NextRow, NextCol), /* Asks the Position  where we want to move */
     verify_elem_in_pos(NextRow, NextCol, ' ', Board),
-    can_eat(NextRow, NextCol, CurRow, CurCol, Board), !,
+    type_of_move(Row, Col, NextRow, NextCol, Board, 'y'), !,
     format('\nValid Next Position!', []),
-    execute_move('y', CurRow, CurCol, NextRow, NextCol, Player, 
+    execute_move('y', Row, Col, NextRow, NextCol, Player, 
              Board, NewBoard, _, _, _).
 
 /* in case of the user doesn't insert a valid eat position */
