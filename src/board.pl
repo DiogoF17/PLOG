@@ -141,4 +141,5 @@ display_number_eliminated(O, X, Z, ZPlayer) :-
     format("------------------------------\n", []).
 
 display_player_turn(Player) :-
-     format("  PLAYER TURN: ~p\n", [Player]).
+    format("\n------------------------------\n", []),
+    format("  MOVE FROM PLAYER: ~p\n", [Player]).

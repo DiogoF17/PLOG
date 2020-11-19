@@ -7,7 +7,11 @@
 
 ---
 
-# 1-Descrição
+# Instalação
+
+Para poder instalar este jogo basta fazer o download dos ficheiros, depois no sicstus(ou outro ambiente de prolog) fazer consult do ficheiro *green_skull.pl* depois disso basta escrever o predicado *play* e o jogo começa a correr.
+
+# Descrição
 **Introdução**
 
 Green Skull é um jogo de tabuleiro disputado por dois jogadores. O material necessário para jogar é: um tabuleiro, peças redondas (8 verdes, 10 roxas e 10 brancas) e uma peça não redonda (geralmente em formato de crânio). 
@@ -15,7 +19,7 @@ Green Skull é um jogo de tabuleiro disputado por dois jogadores. O material nec
 ![tabuleiro_real](imagens/tabuleiro_real.png)
 
 
-O tabuleiro é de formato triangular apresentando bordas de cores correspondentes aos três tipos de peças.
+O tabuleiro é de formato triangular sendo que cada lado contém 10 células, e cada um destes lados apresenta bordas de cores correspondentes aos três tipos de peças.
 
 Os três tipos de peças representam diferentes criaturas mitológicas (embora a representação seja apenas abstrata). As peças verdes são chamadas de Zombies, as brancas de Orcs e as roxas de Goblins. 
 
@@ -45,13 +49,22 @@ Vence a espécie que obtiver mais pontos de acordo com a seguinte contagem:
 -cada espécie recebe 2 pontos por cada peça que toque a borda da sua cor
 -cada espécie recebe 1 ponto por cada peça capturada que não seja da sua cor
 
+Página do Jogo: https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf
 
-# Representação interna do estado do jogo
+# Lógica do Jogo
+
+## Representação interna do estado do jogo
+
+O estado do jogo é representado através da estrutura *state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated)*.
+
+![state](imagens/state.png)
+
+Nesta estrutura Board representa o tabuleiro de jogo, Player representa o jogador atual(*X*, *O* ou *Z*), ZPlayer representa o jogador que detém posso sobre o *green skull* (*X* ou *O*), ou seja, sobre os zombies, XEliminated representa o número de peças X eliminadas do tabuleiro, OEliminated representa o número de peças eliminadas do tabuleiro e finalmente ZEliminated representa o número de peças Z eliminadas do tabuleiro.
 
 O tabuleiro triangular é representado através de uma lista de listas com a seguinte disposição:
 
 **Estado inicial do jogo:**
-![tabela_inicial](imagens/tabela_inicial.png)
+![tabela_inicial](imagens/initial_board.png)
 
 O tabuleiro é criado com as peças nas suas posições iniciais. As peças Zombie são representadas visualmente pela letra “Z”, Goblins por “O” e Orcs por “X”. 
  
@@ -74,27 +87,65 @@ Em relação a peças eliminadas, temos também três factos que alternam dinami
 Em relação à representação das peças, são utilizadas strings como descrito anteriormente, cada uma situada na sua posição específica do tabuleiro.
 
 
-# Visualização do Estado de jogo
+## Visualização do Estado de jogo
 
-O jogo apresenta um segundo tabuleiro com índices para facilitar a escolha da peça a mover, tal como a casa para onde a mesma deve ser movida. 
+Para se poder visualizar o estado atual do jogo temos de recorrer ao predicado display_game/2 que recebe como primeiro parámetro o estado atual do jogo e como segundo o jogador atual.
 
-Na seguinte imagem é possível observar o estado inicial do jogo.
+![display_game](imagens/display_game.png)
 
-![tabuleiro_jogo](imagens/tabuleiro_jogo.png)
+Este predicado recorre a outros três predicados que fazem o seguinte:
 
+- display_board/1: recebe como parâmetro o tabuleiro atual de jogo e apresenta também as linhas e colunas de cada elemento para facilitar a escolha da peça a mover, tal como a casa para onde a mesma deve ser movida. Este predicado recorre a outro predicado “print_row1/1” que imprime a linha 1, este por sua vez chama o “print_row2/1” que imprime a linha 2 e assim sucessivamente até à linha 10. Na imagem que se segue é possivel observar a representação do tabuleiro inicial do jogo.
 
+![tabuleiro_jogo](imagens/display_initial_board.png)
 
-O jogo apresenta uma tabela indicativa do número de peças eliminadas de cada espécie. Indica também o jogador que possui a caveira assim como jogador que deve jogar no turno atual. Para efetuar um movimento, o jogador deve indicar as coordenadas da peça a mover, assim como as da casa para onde pretende mover a mesma.
+- display_number_eliminated/4: recebe nos três primeiros parâmetros o número de peças de cada tipo eliminadas e no quarto argumento recebe o jogador que detém posse sobre os zombies. O que este predicado faz é apresentar uma tabela indicativa do número de peças eliminadas de cada espécie e indicar também o jogador que possui a caveira. 
+
+- display_player_turn/1: recebe como primeiro parâmetro o jogador atual e apresenta no ecrã uma mensagem que indica quem é o jogador a fazer a próxima jogada. A imagem que se segue mostra o resultado destes dois últimos predicados.
 
 ![tabuleiro_jogo](imagens/tabela.png)
 
+Em relação aos menus temos o seguinte: ao correr inicialmente o jogo é nos apresentado o menu principal no qual nos é pedido para escolher um dos três estilos de jogo: humano contra humano, humano contra computador ou computador contra computador.
 
-Para podermos visualizar o tabuleiro temos de recorrer ao predicado “display_game/2” que recebe o tabuleiro e o jogador a jogar. Este predicado recorre a dois outros: “print_board/1” que recebe o tabuleiro  e ao “print_score/0” que mostra as atuais pontuações. O predicado “print_board/1” recorre por sua vez a outro predicado “print_row1/1” que imprime a linha 1 este chama o “print_row2/1” que imprime a linha 2 e assim sucessivamente até à linha 10.
+![menu_principal](imagens/main_menu.png)
 
-![funções](imagens/functions.png)
+Para isto recorremos ao predicado main_menu/0 que por sua vez chama o display_main_menu/0 que simplesmente mostra o menu, recorremos também ao ask_menu_option/2 que vai pedir uma opção ao utilizador e ao mesmo tempo vai também validá-la e recorremos também ao predicado next_state/2 que com base no estado atual e na opção do utilizador vai decidir qual é o estado de jogo seguinte.
 
+![menu_principal_predicado](imagens/main_menu_pred.png)
 
-Página do Jogo: (https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf)
+Temos outro menu no qual o utilizador pode selecionar qual a dificuldade do jogo(este menu só ocorre caso o utilizador tenha selecionado uma das opções de jogar com computador). Aqui o utilizador pode selecionar um de três niveís de dificuldade: fácil, médio ou difícil.
+
+![menu_de_dificuldade](imagens/difficulty_menu.png)
+
+Para isto recorri ao predicado menu_select_difficulty/1 que por sua vez recorre ao predicado display_menu_select_difficulty/0 que simplesmente mostra o menu e ask_menu_option/2 que vai pedir uma opção ao utilizador e ao mesmo tempo vai também validá-la. Este predicado retorna a dificuldade selecionada pelo utilizador.
+
+![menu_de_dificuldade_predicado](imagens/select_difficulty_pred.png)
+
+Por último temos também outro menu que só aparece caso o utilizador tenha selecionado a opção humano contra computador no qual é possível escolher qual das peças o computador será ou Os ou Xs.
+
+![menu_de_seleção_de_peça](imagens/select_piece.png)
+
+Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predicado anterior. Simplesmente recorre ao predicado display_menu_select_piece/0 que mostra o menu e também recorre ao ask_menu_option/2 que vai pedir uma opção ao utilizador e ao mesmo tempo vai também validá-la. Este predicado retorna a peça selecionada pelo utilizador para o computador.
+
+![menu_de_seleção_de_peça_pred](imagens/select_piece_pred.png)
+
+## Lista de jogadas válidas
+
+## Execução de jogadas
+
+## Final de jogo
+
+## Avaliação do tabuleiro
+
+## Jogada do computador
+
+# Conclusões
+
+# Bibliografia
+
+Manual do Sicstus: https://sicstus.sics.se/sicstus/docs/latest4/pdf/sicstus.pdf
+
+Página do Jogo: https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf
 
 ---
 
