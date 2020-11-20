@@ -26,9 +26,12 @@ user_move(Board, Player, [[Row, Col, NextRow, NextCol] | Tail]) :-
 
 /*
 pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move) :-
-    valid_moves(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player, ListOfMoves),
-    calc_values(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), _, ListOfMoves, MovesWithValues),
-    choose_move(GameState, Player, Level, -Move).
+    choose_move(GameState, Player, Level, Move).
+
+choose_move(Gamestate, Player, Level, Move) :-
+    valid_moves(GameState, Player, ListOfMoves),
+    calc_values(GameState, Player, ListOfMoves, ListMovesWithValues),
+    choose_move(Gamestate, Player, Level, ListMovesWithValues, Move).
 
 calc_values(_, _, [], []).
 
