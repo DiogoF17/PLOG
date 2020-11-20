@@ -4,15 +4,15 @@ get_move(state(Board, Player, _, _, _, _), 'None', _, Move) :-
 
 get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), 'All', Level, Move) :-
     !,
-    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move).
+    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player, Level, Move).
 
 get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player, Level, Move) :-
     !,
-    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move).
+    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),  Player, Level, Move).
 
 get_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), ZPlayer, Level, Move) :-
     !,
-    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move).
+    pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Player, Level, Move).
 
 get_move(state(Board, Player, _, _, _, _), _, _, Move) :-
     user_move(Board, Player, Move).
@@ -25,7 +25,7 @@ user_move(Board, Player, [[Row, Col, NextRow, NextCol] | Tail]) :-
     keep_eating(EatMove, NextRow, NextCol, Board1, _, Player, Tail).
 
 /*
-pc_move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Level, Move) :-
+pc_move(GameState, Player, Level, Move) :-
     choose_move(GameState, Player, Level, Move).
 
 choose_move(Gamestate, Player, Level, Move) :-
@@ -35,12 +35,10 @@ choose_move(Gamestate, Player, Level, Move) :-
 
 calc_values(_, _, [], []).
 
-calc_values(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), _, [H | Tail], [H, Value | T]) :-
-    move(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated),
-        H, 
-        NewState),
+calc_values(GameState, Player, [H | Tail], [H - Value | T]) :-
+    move(GameState, H, NewState),
     value(NewState, Player, Value),
-    calc_values(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), _, Tail, T).
+    calc_values(GameState, Player, Tail, T).
 */
 
 /* 
