@@ -133,7 +133,57 @@ Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predic
 
 ## Execução de jogadas
 
+Para a a execução de jogadas temos o seguinte predicado move/3.
+
+![move_pred](imagens/move.png)
+
+Este predicado recebe como primeiro parâmetro o estado de jogo atual, como segundo a jogada a efetuar e como terceiro(valor a retornar) o novo estado de jogo que irá existir depois da jogada.  
+Como se pode ver este predicado recorre a outros predicados entre os quais estão:
+
+- verifyEatMove/3: este predicado recebe como primeiro parâmetro a jogada a efetuar, como segundo parâmetor recebe o tabuleiro atual e como terceiro e também valor a retornar uma variável que nos diz se a jogada a efetuar é uma jogada de movimento normal ou se alguma peça é "comida". No fundo é isso que este predicado faz, verifica o tipo de jogada, normal ou uma em que se "come" peças;
+
+- execute_moves/11: este predicado recebe no 1º parâmetro o tabuleiro atual, no 2º o jogador atual, no 3º, 4º e 5º o número de cada peças comidas de cada tipo, 6º a jogada atual, 7º o tipo de jogada, 8º o novo tabuelrio depois da execução da jogada, 9º, 10º e 11º os novos valores de peças comidas de cada tipo depois da execução da jogada. No fundo este predicado executa a jogada  removendo a peça selecionada da posição atual, e colocando-a na nova posição e elimina as peças comidas(se tiver sido alguma);
+
+- change_Player_Has_Z/4: este predicado recebe como 1º parâmetro o tipo de jogada, 2º o jogador atual, 3º jogador que detém posse sobre os zombies e como 4º e valor a retornar o jogador que detém posse sobre os zombies depois da jogada ser executada. No fundo o que este predicado faz é tendo em conta a jogada atual muda ou não o jogador que detém o controlo sobre os zombies;
+
+- next_player/4: este predicado recebe como 1º parâmetro o jogador atual, 2º parâmetro o jogador que tinha posse sobre os zombies antes da jogada ser executada, 3º o jogador que detém posso sobre os zombies depois da executada ser executada e como 4º e valor a retornar quem será o jogador a executar a próxima jogada. No fundo o que este predicado faz é tendo em conta a jogada atual dá-nos quem será o jogador seguinte.
+
 ## Final de jogo
+
+Para avaliarmos se o jogo chegou ao fim recorremos ao seguinte predicado game_over/2.
+Este predicado recebe como 1º parâmetro o estado atual do jogo e como 2º e valor a retornar o vencedor, caso o jogo ainda não tenha chegado a um fim o predicado falha.  
+
+Se o jogo chegou a um fim significa que atingimos uma das 6 seguintes possibilidades:
+
+- todas as peças X foram eliminadas nesse caso este predicado sussede:
+
+![game_over_x_elim_pred](imagens/game_over_x_elim_pred.png)
+
+- todas as peças O foram eliminadas nesse caso este predicado sussede:
+
+![game_over_o_elim_pred](imagens/game_over_o_elim_pred.png)
+
+- todas as peças Z foram eliminadas nesse caso este predicado sussede:
+
+![game_over_z_elim_pred](imagens/game_over_z_elim_pred.png)
+
+- todas as peças X restantes em tabuleiro estão a tocar a borda do seu tipo:
+
+![game_over_x_bord_pred](imagens/game_over_x_bord_pred.png)
+
+- todas as peças O restantes em tabuleiro estão a tocar a borda do seu tipo:
+
+![game_over_o_bord_pred](imagens/game_over_o_bord_pred.png)
+
+- todas as peças Z restantes em tabuleiro estão a tocar a borda do seu tipo:
+
+![game_over_z_bord_pred](imagens/game_over_z_bord_pred.png)
+
+Como se pode ver todos estes predicados têm em comum os dois últimos predicados:
+
+- calcElemPontuation/7: este predicado recebe como 1º parâmetro o tabuleiro atual, 2º, 3º e 4º o número de peças de cada tipo eliminadas e 5º, 6º e 7º e valores a retornar a pontução de cada peça tendo em conta os parâmetros anteriores. No fundo o que este predicado faz é calcular a pontuação de cada tipo de peças;
+
+- calcWinner/4: este predicado recebe como 1º, 2º e 3º parâmetros as pontuações de cada peça e como 4º e valor a retornar o vencedor ou em caso de empate este parâmtro fica em branco. No fundo o que este predicado faz é calcular o vencedor tendo em conta a pontuação de cada tipo de peças.
 
 ## Avaliação do tabuleiro
 
