@@ -56,5 +56,10 @@ valid_next_pos(_, _, _, _, _, _) :-
     format("\nInvalid Next Position! \n", []),
     0 = 1. /* this way always returns false */
 
+can_show_pc_move(Answer) :-
+    format('------------------------------\n', []),
+    format("Show PC move(y/n):", []), read(UserInput), 
+    verify_answer(UserInput, Answer).
+
 
 

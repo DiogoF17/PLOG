@@ -43,7 +43,7 @@ display_end_game_menu(' ') :-
     format('========================================\n\n', []).
 
 display_end_game_menu(Winner) :-
-    format('\n\n========================================\n', []),
+    format('\n========================================\n', []),
     format('\tGAME OVER\n', []),
     format('========================================\n', []),
     format('CONGRATULATIONS ~p, YOU WIN!\n', [Winner]),

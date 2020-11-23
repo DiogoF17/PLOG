@@ -18,7 +18,8 @@ next_state(mainMenu, Option) :-
 
 next_state(mainMenu, Option) :-
     Option == 3,
-    menu_select_difficulty(Difficulty),
+    menu_select_difficulty(OptionDifficulty),
+    get_difficulty(OptionDifficulty, Difficulty),
     initial(State),
     play(State, 'All', Difficulty).
 

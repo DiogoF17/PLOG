@@ -64,9 +64,12 @@ verify_equal(_, _, 0).
 /* ------------------------------------ */
 
 verify_elem_in_pos(Row, Col, Element, Board) :-
-    integer(Row), integer(Col), Row >= 1, Row =< 10, Col >= 1, Col =< Row,
+    in_board(Row, Col),
     find_element(Row, Col, Board, Z), 
     Z == Element.
+
+in_board(Row, Col) :-
+    integer(Row), integer(Col), Row >= 1, Row =< 10, Col >= 1, Col =< Row.
 
 /* ------------------------------------ */
 
@@ -234,5 +237,20 @@ calcWinner(PontX, PontO, PontZ, 'Z') :-
     PontZ > PontO, PontZ > PontX, !.
 
 calcWinner(_, _, _, ' ').
+
+/*-------------------------------*/
+show_pc_move(Move, 'n').
+
+show_pc_move(Move, 'y') :-
+    format("------------------------------\n", []),
+    format("PC MOVE: (Current Row, Current Column) -> (Next Row, Next Column)\n\n", []),
+    show_move_by_move(Move).
+
+show_move_by_move([]) :-
+    !, format("------------------------------\n", []).
+
+show_move_by_move([H | Rest]) :-
+    format("(~p, ~p) -> (~p, ~p)\n", H),
+    show_move_by_move(Rest).
 
 

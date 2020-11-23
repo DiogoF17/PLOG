@@ -22,8 +22,10 @@ play(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), PC, L
         NewState),
     next_play(NewState, PC, Level).
 
-next_play(State, _, _) :-
-    game_over(State, Winner), !,
+next_play(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), _, _) :-
+    game_over(state(Board, Player, ZPlayer, XEliminated, OEliminated, ZEliminated), Winner), !,
+    format("\n========================================\n\tFINAL BOARD\n========================================\n", []),
+    display_board(Board),
     display_end_game_menu(Winner).
 
 next_play(State, PC, Level) :-

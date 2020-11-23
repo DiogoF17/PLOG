@@ -1,3 +1,5 @@
+:- use_module(library(lists)).
+
 get_move(state(Board, Player, _, _, _, _), 'None', _, Move) :-
     !,
     user_move(Board, Player, Move).
@@ -24,23 +26,156 @@ user_move(Board, Player, [[Row, Col, NextRow, NextCol] | Tail]) :-
              Board, Board1, _, _, _),
     keep_eating(EatMove, NextRow, NextCol, Board1, _, Player, Tail).
 
-/*
-pc_move(GameState, Player, Level, Move) :-
-    choose_move(GameState, Player, Level, Move).
 
-choose_move(Gamestate, Player, Level, Move) :-
+pc_move(GameState, Player, Level, Move) :-
+    choose_move(GameState, Player, Level, Move),
+    can_show_pc_move(Answer),
+    show_pc_move(Move, Answer).
+
+choose_move(GameState, Player, Level, Move) :-
     valid_moves(GameState, Player, ListOfMoves),
     calc_values(GameState, Player, ListOfMoves, ListMovesWithValues),
-    choose_move(Gamestate, Player, Level, ListMovesWithValues, Move).
+    sort(ListMovesWithValues, ListMovesWithValuesSorted),
+    choose_move(Level, ListMovesWithValuesSorted, Move).
+
+choose_move('Easy', [ MoveWithValue | _], Move) :- !, getMove(MoveWithValue, Move).
+
+choose_move('Hard', MovesWithValue, Move) :- 
+    !, last(MovesWithValue, MoveWithValue), 
+    getMove(MoveWithValue, Move).
+
+choose_move('Medium', MovesWithValue, Move) :- 
+    length(MovesWithValue, Size), 
+    MediumElem is round(Size/2), 
+    nth1(MediumElem, MovesWithValue, MoveWithValue), 
+    getMove(MoveWithValue, Move).
+
+getMove([_ | [Move]], Move).
+
+valid_moves(state(Board, _, _, _, _, _), Player, ListOfMoves) :-
+    get_row_num(Board, Player, [], ListOfPos, 1),
+    get_valid_adj_pos(Board, ListOfPos, [], ListOfMoves1),
+    assert(listEat([])),
+    get_valid_eat_pos(Board, Player, ListOfPos),
+    retract(listEat(ListOfMoves2)),
+    append(ListOfMoves1, ListOfMoves2, ListOfMoves3),
+    remove_empty_lists(ListOfMoves3, ListOfMoves).
+
+remove_empty_lists([], []).
+remove_empty_lists([[] | T], List) :- remove_empty_lists(T, List).
+remove_empty_lists([H | T1], [H | T2]) :- remove_empty_lists(T1, T2).
+
+get_valid_eat_pos(_, _, []).
+
+get_valid_eat_pos(Board, Player, [[Row, Col] | T1]) :-
+    eat_all_dir(Board, Player, Row, Col, []),
+    get_valid_eat_pos(Board, Player, T1).
+
+add_eat_pos(Board, Player, Row, Col, NextRow, NextCol, Move) :-
+    verify_elem_in_pos(NextRow, NextCol, ' ', Board),
+    type_of_move(Row, Col, NextRow, NextCol, Board, 'y'), !,
+    execute_move('y', Row, Col, NextRow, NextCol, Player, Board, NewBoard, _, _, _),
+    append(Move, [[Row, Col, NextRow, NextCol]], Aux),
+    retract(listEat(Aux1)),
+    append(Aux1, [Aux], Aux2),
+    assert(listEat(Aux2)),
+    eat_all_dir(NewBoard, Player, NextRow, NextCol, Aux).
+
+add_eat_pos(_, _, _, _, _, _, _).
+
+eat_all_dir(Board, Player, Row, Col, Move) :-
+    ColBefore is Col - 2, ColAfter is Col + 2,
+    RowBefore is Row - 2, RowAfter is Row + 2,
+    add_eat_pos(Board, Player, Row, Col, Row, ColBefore, Move),
+    add_eat_pos(Board, Player, Row, Col, Row, ColAfter, Move),
+    add_eat_pos(Board, Player, Row, Col, RowBefore, ColBefore, Move),
+    add_eat_pos(Board, Player, Row, Col, RowBefore, Col, Move),
+    add_eat_pos(Board, Player, Row, Col, RowAfter, Col, Move),
+    add_eat_pos(Board, Player, Row, Col, RowAfter, ColAfter, Move).
+
+get_valid_adj_pos(_, [], ListOfMoves, ListOfMoves).
+
+get_valid_adj_pos(Board, [[Row, Col] | T1], Aux, ListOfMoves) :-
+    ColBefore is Col - 1, ColAfter is Col + 1,
+    RowBefore is Row - 1, RowAfter is Row + 1,
+    add_adj_pos(Board, Row, Col, Row, ColBefore, Aux1), append(Aux, [Aux1], Aux2),
+    add_adj_pos(Board, Row, Col, Row, ColAfter, Aux3), append(Aux2, [Aux3], Aux4),
+    add_adj_pos(Board, Row, Col, RowBefore, ColBefore, Aux5), append(Aux4, [Aux5], Aux6),
+    add_adj_pos(Board, Row, Col, RowBefore, Col, Aux7), append(Aux6, [Aux7], Aux8),
+    add_adj_pos(Board, Row, Col, RowAfter, Col, Aux9), append(Aux8, [Aux9], Aux10),
+    add_adj_pos(Board, Row, Col, RowAfter, ColAfter, Aux11), append(Aux10, [Aux11], Aux12),
+    get_valid_adj_pos(Board, T1, Aux12, ListOfMoves).
+
+add_adj_pos(Board, Row, Col, NextRow, NextCol, [[Row, Col, NextRow, NextCol]]) :-
+    verify_elem_in_pos(NextRow, NextCol, ' ', Board), !.
+
+add_adj_pos(_, _, _, _, _, []).
+
+get_row_num([], _, Result, Result, _).
+
+get_row_num([H | T], Player, Aux, Result, RowNum) :-
+    get_col_num(H, Player, Aux1, RowNum, 1),
+    append(Aux1, Aux, Aux2),
+    RowNum1 is RowNum + 1,
+    get_row_num(T, Player, Aux2, Result, RowNum1).
+
+get_col_num([], _, [], _, _).
+
+get_col_num([Player | T1], Player, [[RowNum, ColNum] | T2], RowNum, ColNum) :-
+    ColNum1 is ColNum + 1, !,
+    get_col_num(T1, Player, T2, RowNum, ColNum1).
+
+get_col_num([_ | T], Player, ListOfPos, RowNum, ColNum) :-
+    ColNum1 is ColNum + 1,
+    get_col_num(T, Player, ListOfPos, RowNum, ColNum1).
 
 calc_values(_, _, [], []).
 
-calc_values(GameState, Player, [H | Tail], [H - Value | T]) :-
+calc_values(GameState, Player, [H | Tail], [[Value, H] | T]) :-
     move(GameState, H, NewState),
     value(NewState, Player, Value),
     calc_values(GameState, Player, Tail, T).
-*/
 
+value(state(Board, _, _, XElim, OElim, ZElim), Player, Value) :-
+    calc_value_on_board(Player, Board, 1, Value1),
+    calc_value_elim(Player, XElim, OElim, ZElim, Value2),
+    Value is Value1 + Value2.
+
+calc_value_elim('X', _, O, Z, Value) :- Value is O + Z.
+calc_value_elim('O', X, _, Z, Value) :- Value is X + Z.
+calc_value_elim('Z', X, O, _, Value) :- Value is O + X.
+
+calc_value_on_board(_, [], _, 0).
+
+calc_value_on_board(Player, [Row | Rest], RowNum, Value) :-
+    calc_value_on_row(Player, Row, RowNum, 1, Value1),
+    RowNum1 is RowNum + 1,
+    calc_value_on_board(Player, Rest, RowNum1, Value2),
+    Value is Value1 + Value2.
+
+calc_value_on_row(_, [], _, _, 0).
+
+calc_value_on_row(Player, [Player | T], RowNum, ColNum, Value) :-
+    get_value(Player, RowNum, ColNum, Value1),
+    ColNum1 is ColNum + 1,
+    calc_value_on_row(Player, T, RowNum, ColNum1, Value2),
+    Value is Value1 + Value2.
+
+calc_value_on_row(Player, [_ | T], RowNum, ColNum, Value) :-
+    ColNum1 is ColNum + 1,
+    calc_value_on_row(Player, T, RowNum, ColNum1, Value).
+
+get_value('O', Row, Col, Value) :- 
+    Aux is Col - Row,
+    Value is Aux + 10.
+
+get_value('X', _, Col, Value) :- 
+    Aux is Col - 11,
+    Value is 0 - Aux.
+
+get_value('Z', Row, _, Value) :-
+    Aux is Row - 10,
+    Value is Aux + 10.
 /* 
  ===========================================================
 */
@@ -58,6 +193,10 @@ calc_values(GameState, Player, [H | Tail], [H - Value | T]) :-
 
 execute_moves(Board, _, XEliminated, OEliminated, ZEliminated,
               [[] | _], _,
+              Board, XEliminated, OEliminated, ZEliminated).
+
+execute_moves(Board, _, XEliminated, OEliminated, ZEliminated,
+              [], _,
               Board, XEliminated, OEliminated, ZEliminated).
 
 execute_moves(Board, Player, XEliminated, OEliminated, ZEliminated,
