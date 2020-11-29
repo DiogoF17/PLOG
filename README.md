@@ -125,9 +125,9 @@ Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predic
 ![menu_de_seleção_de_peça_pred](imagens/select_piece_pred.png)
 
 ## Lista de jogadas válidas
-É possível obter um conjunto de jogadas válidas através no predicado valid_moves/3. Este predicado recebe o estado de jogo Board e o Player, devolvendo uma lista ListOfMoves com todas as jogadas possíveis para esse jogador. A lista ListOfMoves é representada através de uma lista de listas. Cada uma das sub-listas contém por sua vez uma ou várias listas internas  que representam uma jogada (várias no caso de serem comidas várias peças num turno). Uma jogada representa-se por [Row,Col,NextRow,NextCol].
+É possível obter um conjunto de jogadas válidas através do predicado valid_moves/3. Este predicado recebe o estado de jogo e o Player, devolvendo uma lista ListOfMoves com todas as jogadas possíveis para esse jogador. A lista ListOfMoves é representada através de uma lista de listas. Cada uma das sub-listas contém por sua vez uma ou várias listas internas  que representam uma jogada (várias no caso de serem comidas várias peças num turno). Uma jogada representa-se por [Row,Col,NextRow,NextCol].
 ListOfMoves apresenta a estrutura final seguinte:
-[[[Row,Col,NextRow,NextCol],[*idem se for possível comer outra peça*]],[*outras jogadas*.]]
+[[[Row,Col,NextRow,NextCol],[*idem se for possível comer outra peça*]],[*outras jogadas*]]
 
 ![valid_moves](imagens/valid_moves.png)
 
@@ -137,7 +137,7 @@ ListOfMoves apresenta a estrutura final seguinte:
 
 - De seguida, é utilizado o predicado get_valid_adj_pos/4 de forma a obter as deslocações (para casas adjacentes) possíveis para cada peça do jogador. Estas jogadas, no entanto ainda não incluem movimentos para comer outra peça. O predicado confirma que na linha seguinte, as colunas adjacentes se encontram livres para a peça em questão poder ser movimentada. Caso estejam, as mesmas são adicionadas à lista de posições adjacentes disponíveis.
 
-- Depois, através de get_valid_eat_pos/3 é possível obter as jogadas que permitem comer outras peças. O predicado utiliza um outro: eat_all_dir/5 que obtém todas as casas a uma distância de 2 para onde será possível movimentar a peça que vai comer outra, no caso da futura casa estar livre. Por fim, get_valid_eat_pos/3 chama-se recursivamente de modo a percorrer todos os elementos.
+- Depois, através de get_valid_eat_pos/3 é possível obter as jogadas que permitem comer outras peças. O predicado utiliza um outro: eat_all_dir/5 que obtém todas as casas a uma distância de 2 para onde será possível movimentar a peça que vai comer outra, no caso da futura casa estar livre e vai se chamando recursivamente para obter todos os sítios para onde pode comer. Por fim, get_valid_eat_pos/3 chama-se recursivamente de modo a percorrer todos os elementos.
 
 ## Execução de jogadas
 
@@ -150,7 +150,7 @@ Como é possível observar, este predicado recorre a outros predicados entre os 
 
 - verifyEatMove/3: este predicado recebe como primeiro parâmetro a jogada a efetuar, como segundo parâmetro o tabuleiro atual e como terceiro retorna uma variável que nos diz se a jogada a efetuar é uma jogada de movimento normal ou se alguma peça é "comida". Sucintamente, o predicado permite diferenciar se o jogador efetua um movimento para uma casa adjacente ou se "come" uma outra peça.
 
-- execute_moves/11: este predicado recebe no primeiro parâmetro o tabuleiro atual, no segundo o jogador atual, no terceiro, quarto e quintos o número de cada peças comidas de cada tipo, sexto a jogada atual, sétimo o tipo de jogada, oitavo o novo tabuleiro depois da execução da jogada, nono, décimo e décimo-primeiros os novos valores de peças comidas de cada tipo depois da execução da jogada. Em suma,  este predicado executa a jogada, removendo a peça selecionada da posição atual e colocando-a na nova posição. Eliminando também eventuais peças comidas.
+- execute_moves/11: este predicado recebe no primeiro parâmetro o tabuleiro atual, no segundo o jogador atual, no terceiro, quarto e quintos o número de cada peças comidas de cada tipo, sexto a jogada atual, sétimo o tipo de jogada, oitavo o novo tabuleiro depois da execução da jogada, nono, décimo e décimo-primeiros os novos valores de peças comidas de cada tipo depois da execução da jogada. Em suma, este predicado executa a jogada, removendo a peça selecionada da posição atual e colocando-a na nova posição. Eliminando também eventuais peças comidas.
 
 - change_Player_Has_Z/4: este predicado recebe como primeiro parâmetro o tipo de jogada, em segundo o jogador atual, em terceiro o jogador que detém posse sobre os zombies e como quarto e valor de retorno, o jogador que detém posse sobre os zombies depois da jogada ser executada. Este predicado muda (ou não) o jogador que detém controlo sobre os zombies tendo em conta a jogada atual.
 
@@ -191,14 +191,14 @@ Todos estes predicados têm os dois últimos predicados comuns:
 
 - calcElemPontuation/7: este predicado recebe como primeiro parâmetro o tabuleiro atual, segundo, terceiro e quartos o número de peças de cada tipo eliminadas e quinto, sexto e sétimos os valores a retornar com a pontução de cada tipo de peça tendo em conta os parâmetros anteriores. O predicado permite-nos obter a pontuação de cada tipo de peça.
 
-- calcWinner/4: este predicado recebe como primeiro, segundo e terceiros parâmetros as pontuações de cada peça e como quarto e valor de retorno o vencedor. Em caso de empate, este parâmetro fica em branco. O predicado permite-nos obter a pontuação de cada tipo de peça.
+- calcWinner/4: este predicado recebe como primeiro, segundo e terceiros parâmetros as pontuações de cada peça e como quarto e valor de retorno o vencedor. Em caso de empate, este parâmetro fica em branco.
 
 ## Avaliação do tabuleiro
-A avaliação do tabuleiro é feita através do predicado value/3. Este recebe o estado de jogo Board e o Player e devolve o valor da pontuação do jogador Player em Value. A pontuação de um jogador depende de dois parâmetros, as peças adversárias comidas (1 ponto cada) e o número de peças próprias que se encontram posicionadas na parede do tabuleiro com a cor correspondente (2 pontos cada). O predicado value utiliza duas outras funções para este cálculo:
+A avaliação do tabuleiro é feita através do predicado value/3. Este recebe o estado de jogo e o Player e devolve um valor, Value, que no fundo representa o valor daquele estado de jogo para o Player, quanto maior for, mais valor terá. Este valor depende de dois parâmetros, número de peças adversárias comidas (1 ponto cada) e a distância que as suas peças se encontram da parede do tabuleiro com a sua cor(valor entre 1 e 10, quanto maior este valor mais perto está). O predicado value utiliza duas outras funções para este cálculo:
 
 ![value](imagens/value.png)
 
-- calc_value_on_board/4 que recebe o jogador Player e tabuleiro Board e a linha RowNum e devolve em Value o valor da pontuação do número de peças do jogador que se encontram em contacto com as casas da cor correspondente. Todas as linhas do tabuleiro são percorridas recursivamente e o valor vai sendo adicionado a Value.
+- calc_value_on_board/4 que recebe o jogador, Player, o tabuleiro, Board, o número da linha, RowNum, e devolve em Value o valor da pontuação das peças do jogador em tabuleiro, sendo que cada uma pode ter uma pontuação variável de 1 a 10, quanto mais perto a peça estiver da borda da sua cor maior será a pontuação. Todas as linhas do tabuleiro são percorridas recursivamente e o valor vai sendo adicionado a Value.
 
 - calc_value_elim/5 que recebe o jogador Player ('X','Z','O') assim como as peças comidas de cada tipo XElim, OElim, ZElim, e devolve em Value a soma do número de peças comidas de tipos diferentes das do Player.
 
