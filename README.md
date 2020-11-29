@@ -120,7 +120,7 @@ Por último temos também outro menu que só aparece caso o utilizador tenha sel
 
 ![menu_de_seleção_de_peça](imagens/select_piece.png)
 
-Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predicado anterior. Simplesmente recorre ao predicado display_menu_select_piece/0 que mostra o menu assim como ask_menu_option/2 pede uma opção ao utilizador e ao mesmo tempo valida-a. Este predicado retorna a peça selecionada pelo utilizador para o computador.
+Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predicado anterior. Simplesmente recorre ao predicado display_menu_select_piece/0 que mostra este menu e também a ask_menu_option/2 que pede uma opção ao utilizador e ao mesmo tempo valida-a. Este predicado retorna a peça selecionada pelo utilizador para o computador.
 
 ![menu_de_seleção_de_peça_pred](imagens/select_piece_pred.png)
 
