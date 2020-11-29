@@ -14,34 +14,34 @@ Para poder instalar este jogo basta fazer o download dos ficheiros, depois no si
 # Descrição
 **Introdução**
 
-Green Skull é um jogo de tabuleiro disputado por dois jogadores. O material necessário para jogar é: um tabuleiro, peças redondas (8 verdes, 10 roxas e 10 brancas) e uma peça não redonda (geralmente em formato de crânio). 
+Green Skull é um jogo de tabuleiro disputado por dois jogadores. O material necessário para jogar é: um tabuleiro, peças redondas (8 verdes, 10 roxas e 10 brancas) e uma peça não redonda (geralmente em formato de crânio).
 
 ![tabuleiro_real](imagens/tabuleiro_real.png)
 
 
 O tabuleiro é de formato triangular sendo que cada lado contém 10 células, e cada um destes lados apresenta bordas de cores correspondentes aos três tipos de peças.
 
-Os três tipos de peças representam diferentes criaturas mitológicas (embora a representação seja apenas abstrata). As peças verdes são chamadas de Zombies, as brancas de Orcs e as roxas de Goblins. 
+Os três tipos de peças representam diferentes criaturas mitológicas (embora a representação seja apenas abstrata). As peças verdes são chamadas de Zombies, as brancas de Orcs e as roxas de Goblins.
 
 **Instruções de jogo**
 
-Ao iniciar o jogo, um jogador toma posse dos Goblins enquanto que o adversário controla os Orcs. O controlo das peças Zombie vai alternando entre os dois jogadores à medida que vão jogando (embora seja primeiro atribuído ao jogador que possui os goblins). 
+Ao iniciar o jogo, um jogador toma posse dos Goblins enquanto que o adversário controla os Orcs. O controlo das peças Zombie vai alternando entre os dois jogadores à medida que vão jogando (embora seja primeiro atribuído ao jogador que possui os goblins).
 
 Ambos os jogadores podem efetuar um de dois movimentos possíveis:
--O primeiro é deslocar uma das suas peças para uma casa adjacente vazia. 
+-O primeiro é deslocar uma das suas peças para uma casa adjacente vazia.
 
 ![movimento1](imagens/movimento1.png)
 
 
--Pode também efetuar um ou mais saltos em linha reta sobre outra peça (incluindo peças do próprio jogador) caindo numa casa vazia. Estas peças pelas quais a peça vai passando por cima vão sendo removidas do tabuleiro. Se o jogador que possui o crânio optar por este segundo movimento, deve ceder o crânio ao seu adversário tendo agora ele posse dos Zombies. 
+-Pode também efetuar um ou mais saltos em linha reta sobre outra peça (incluindo peças do próprio jogador) caindo numa casa vazia. Estas peças pelas quais a peça vai passando por cima vão sendo removidas do tabuleiro. Se o jogador que possui o crânio optar por este segundo movimento, deve ceder o crânio ao seu adversário tendo agora ele posse dos Zombies.
 
 ![movimento2](imagens/movimento2.png)
 
 
-O jogador que possui o crânio pode ainda mover uma das peças zombies após cada jogada com as suas respetivas peças. 
+O jogador que possui o crânio pode ainda mover uma das peças zombies após cada jogada com as suas respetivas peças.
 
-O jogo termina quando todas as peças de um tipo forem comidas ou estiverem em contacto com a borda da mesma cor. 
- 
+O jogo termina quando todas as peças de um tipo forem comidas ou estiverem em contacto com a borda da mesma cor.
+
  **Pontuação**
 
 Vence a espécie que obtiver mais pontos de acordo com a seguinte contagem:
@@ -66,8 +66,8 @@ O tabuleiro triangular é representado através de uma lista de listas com a seg
 **Estado inicial do jogo:**
 ![tabela_inicial](imagens/initial_board.png)
 
-O tabuleiro é criado com as peças nas suas posições iniciais. As peças Zombie são representadas visualmente pela letra “Z”, Goblins por “O” e Orcs por “X”. 
- 
+O tabuleiro é criado com as peças nas suas posições iniciais. As peças Zombie são representadas visualmente pela letra “Z”, Goblins por “O” e Orcs por “X”.
+
 
 Os três tabuleiros seguintes representam estados de jogo intermédios. Podemos observar algumas peças movidas e outras retiradas do tabuleiro.
 
@@ -76,7 +76,7 @@ Os três tabuleiros seguintes representam estados de jogo intermédios. Podemos 
 ![tabela_intermedia](imagens/tabela_intermedia.png)
 
 
-Esta última tabela mostra-nos o estado final do jogo. O jogo terminou pois todas as peças Zombie (“Z”) estão em contacto com a face do tabuleiro correspondente à sua cor (neste caso a base do triângulo). 
+Esta última tabela mostra-nos o estado final do jogo. O jogo terminou pois todas as peças Zombie (“Z”) estão em contacto com a face do tabuleiro correspondente à sua cor (neste caso a base do triângulo).
 
 **Estado final do jogo:**
 ![tabela_final](imagens/tabela_final.png)
@@ -99,7 +99,7 @@ Este predicado recorre a outros três predicados que fazem o seguinte:
 
 ![tabuleiro_jogo](imagens/display_initial_board.png)
 
-- display_number_eliminated/4: recebe nos três primeiros parâmetros o número de peças de cada tipo eliminadas e no quarto argumento recebe o jogador que detém posse sobre os zombies. O que este predicado faz é apresentar uma tabela indicativa do número de peças eliminadas de cada espécie e indicar também o jogador que possui a caveira. 
+- display_number_eliminated/4: recebe nos três primeiros parâmetros o número de peças de cada tipo eliminadas e no quarto argumento recebe o jogador que detém posse sobre os zombies. O que este predicado faz é apresentar uma tabela indicativa do número de peças eliminadas de cada espécie e indicar também o jogador que possui a caveira.
 
 - display_player_turn/1: recebe como primeiro parâmetro o jogador atual e apresenta no ecrã uma mensagem que indica quem é o jogador a fazer a próxima jogada. A imagem que se segue mostra o resultado destes dois últimos predicados.
 
@@ -130,6 +130,11 @@ Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predic
 ![menu_de_seleção_de_peça_pred](imagens/select_piece_pred.png)
 
 ## Lista de jogadas válidas
+É possível obter um conjunto de jogadas válidas através no predicado valid_moves/3. Este predicado recebe o estado de jogo Board e o Player, devolvendo uma lista ListOfMoves com todas as jogadas possíveis para esse jogador. A lista ListOfMoves é representada através de uma lista de listas. Cada uma das sub-listas contém por sua vez uma ou várias listas internas  que representam uma jogada (várias no caso de serem comidas várias peças num turno). Uma jogada representa-se por [Row,Col,NextRow,NextCol].
+ListOfMoves apresenta a estrutura final seguinte:
+[[[Row,Col,NextRow,NextCol],[*idem se for possível comer outra peça*]],[*outras jogadas*.]]
+
+-o predicado valid_moves/3 começa por chamar get_row_num/5 que permite obter  
 
 ## Execução de jogadas
 
@@ -186,8 +191,19 @@ Como se pode ver todos estes predicados têm em comum os dois últimos predicado
 - calcWinner/4: este predicado recebe como 1º, 2º e 3º parâmetros as pontuações de cada peça e como 4º e valor a retornar o vencedor ou em caso de empate este parâmtro fica em branco. No fundo o que este predicado faz é calcular o vencedor tendo em conta a pontuação de cada tipo de peças.
 
 ## Avaliação do tabuleiro
+A avaliação do tabuleiro é feita através do predicado value/3. Este recebe o estado de jogo Board e o Player e devolve o valor da pontuação do jogador Player em Value. A pontuação de um jogador depende de dois parâmetros, as peças adversárias comidas (1 ponto cada) e o número de peças próprias que se encontram posicionadas na parede do tabuleiro com a cor correspondente (2 pontos cada). O predicado value utiliza duas outras funções para este cálculo:
+
+- calc_value_on_board/4 que recebe o jogador Player e tabuleiro Board e a linha RowNum e devolve em Value o valor da pontuação do número de peças do jogador que se encontram em contacto com as casas da cor correspondente. Todas as linhas do tabuleiro são percorridas recursivamente e o valor vai sendo adicionado a Value.
+
+- calc_value_elim/5 que recebe o jogador Player ('X','Z','O') assim como as peças comidas de cada tipo XElim, OElim, ZElim, e devolve em Value a soma do número de peças comidas de tipos diferentes das do Player.
+
+- O resultado Value resulta da soma das pontuações resultantes de ambas as funções anteriores.
 
 ## Jogada do computador
+As jogadas do computador são realizadas através do predicado choose_move/4 que recebe o estado de jogo GameState, o jogador Player e o nível de dificuldade Level e devolve a jogada em Move. O predicado tem também uma segunda implementação choose_move/3 onde é passado apenas o nível e uma lista de jogadas ordenada por dificuldades e retorna a jogada adequada em Move.
+
+- No primeiro caso é criada uma lista com as jogadas válidas para o jogador em questão, através do predicado valid_moves. De seguida são calculados os valores de pontuação associados a cada jogada e adicionados a uma outra lista, que será posteriormente ordenada por dificuldade crescente. De seguida é chamado o choose_moves/3, onde é passada a dificuldade ('Easy','Medium','Hard') e a lista ordenada das jogadas com os valores associados
+- Quando o nível de dificuldade passado é 'Easy', o predicado devolve a primeira jogada da lista. Quando esta é 'Hard' devolve a última jogada. Se for 'Medium', é devolvida a jogada presente no centro da lista.
 
 # Conclusões
 
@@ -198,4 +214,3 @@ Manual do Sicstus: https://sicstus.sics.se/sicstus/docs/latest4/pdf/sicstus.pdf
 Página do Jogo: https://nestorgames.com/rulebooks/GREENSKULL_EN.pdf
 
 ---
-
