@@ -9,7 +9,7 @@
 
 # Instalação
 
-Para poder instalar este jogo basta fazer o download dos ficheiros, depois no sicstus(ou outro ambiente de prolog) fazer consult do ficheiro *green_skull.pl* depois disso basta escrever o predicado *play* e o jogo começa a correr.
+Para poder instalar o jogo, basta fazer o download dos ficheiros, e, através do sicstus(ou outro ambiente de prolog) fazer consult do ficheiro *green_skull.pl*. De seguida, basta escrever o predicado *play* para o jogo começar.
 
 # Descrição
 **Introdução**
@@ -59,7 +59,7 @@ O estado do jogo é representado através da estrutura *state(Board, Player, ZPl
 
 ![state](imagens/state.png)
 
-Nesta estrutura Board representa o tabuleiro de jogo, Player representa o jogador atual(*X*, *O* ou *Z*), ZPlayer representa o jogador que detém posso sobre o *green skull* (*X* ou *O*), ou seja, sobre os zombies, XEliminated representa o número de peças X eliminadas do tabuleiro, OEliminated representa o número de peças eliminadas do tabuleiro e finalmente ZEliminated representa o número de peças Z eliminadas do tabuleiro.
+Nesta estrutura Board representa-se o tabuleiro de jogo, em Player representa o jogador atual(*X*, *O* ou *Z*), ZPlayer representa o jogador que detém posso sobre a *green skull* (*X* ou *O*), ou seja, sobre os zombies, XEliminated representa o número de peças X eliminadas do tabuleiro, OEliminated representa o número de peças O eliminadas do tabuleiro e finalmente ZEliminated representa o número de peças Z eliminadas do tabuleiro.
 
 O tabuleiro triangular é representado através de uma lista de listas com a seguinte disposição:
 
@@ -84,40 +84,40 @@ Esta última tabela mostra-nos o estado final do jogo. O jogo terminou pois toda
 
 Guardamos a informação de qual o jogador que deve jogar através do facto que vamos alterando dinamicamente chamado player_turn e guarda uma string que indica qual é o jogador a jogar. Da mesma forma, representamos o detentor do crânio verde com o facto z_belongs_to que também contém uma string que nos diz qual dos dois jogadores controla os zombies nesse instante.
 Em relação a peças eliminadas, temos também três factos que alternam dinamicamente: o_eliminated, z_eliminated e x_eliminated; estes factos contêm o número de peças eliminadas da sua espécie. Sempre que alguma destas peças é eliminada no respetivo facto, incrementamos o valor de peças eliminadas.
-Em relação à representação das peças, são utilizadas strings como descrito anteriormente, cada uma situada na sua posição específica do tabuleiro.
+Em relação à representação das peças, são utilizadas strings. Como descrito anteriormente, cada uma situada na sua posição específica do tabuleiro.
 
 
 ## Visualização do Estado de jogo
 
-Para se poder visualizar o estado atual do jogo temos de recorrer ao predicado display_game/2 que recebe como primeiro parámetro o estado atual do jogo e como segundo o jogador atual.
+Para se poder visualizar o estado atual do jogo temos de recorrer ao predicado display_game/2 que recebe como primeiro parâmetro o estado atual do jogo e como segundo o jogador atual.
 
 ![display_game](imagens/display_game.png)
 
 Este predicado recorre a outros três predicados que fazem o seguinte:
 
-- display_board/1: recebe como parâmetro o tabuleiro atual de jogo e apresenta também as linhas e colunas de cada elemento para facilitar a escolha da peça a mover, tal como a casa para onde a mesma deve ser movida. Este predicado recorre a outro predicado “print_row1/1” que imprime a linha 1, este por sua vez chama o “print_row2/1” que imprime a linha 2 e assim sucessivamente até à linha 10. Na imagem que se segue é possivel observar a representação do tabuleiro inicial do jogo.
+- display_board/1: recebe como parâmetro o tabuleiro atual de jogo e apresenta também as linhas e colunas de cada elemento para facilitar a escolha da peça a mover, tal como a casa para onde a mesma deve ser movida. Este predicado recorre a outro predicado “print_row1/1” que imprime a linha 1. Este, por sua vez chama o “print_row2/1” que imprime a linha 2 e assim sucessivamente até à linha 10. Na imagem que se segue, é possivel observar a representação do tabuleiro inicial do jogo.
 
 ![tabuleiro_jogo](imagens/display_initial_board.png)
 
-- display_number_eliminated/4: recebe nos três primeiros parâmetros o número de peças de cada tipo eliminadas e no quarto argumento recebe o jogador que detém posse sobre os zombies. O que este predicado faz é apresentar uma tabela indicativa do número de peças eliminadas de cada espécie e indicar também o jogador que possui a caveira.
+- display_number_eliminated/4: recebe nos três primeiros parâmetros o número de peças eliminadas de cada tipo e, no quarto argumento, recebe o jogador que detém posse sobre os zombies. Este predicado permite apresentar uma tabela indicativa do número de peças eliminadas de cada espécie e indicar também o jogador que possui a caveira.
 
-- display_player_turn/1: recebe como primeiro parâmetro o jogador atual e apresenta no ecrã uma mensagem que indica quem é o jogador a fazer a próxima jogada. A imagem que se segue mostra o resultado destes dois últimos predicados.
+- display_player_turn/1: recebe como primeiro parâmetro o jogador atual e apresenta no ecrã uma mensagem que indica quem é o jogador que deve fazer a próxima jogada. A imagem que se segue mostra o resultado destes dois últimos predicados.
 
 ![tabuleiro_jogo](imagens/tabela.png)
 
-Em relação aos menus temos o seguinte: ao correr inicialmente o jogo é nos apresentado o menu principal no qual nos é pedido para escolher um dos três estilos de jogo: humano contra humano, humano contra computador ou computador contra computador.
+Ao correr inicialmente o jogo, é nos apresentado o menu principal. Neste, é pedido para escolher um dos três estilos de jogo: humano contra humano, humano contra computador ou computador contra computador.
 
 ![menu_principal](imagens/main_menu.png)
 
-Para isto recorremos ao predicado main_menu/0 que por sua vez chama o display_main_menu/0 que simplesmente mostra o menu, recorremos também ao ask_menu_option/2 que vai pedir uma opção ao utilizador e ao mesmo tempo vai também validá-la e recorremos também ao predicado next_state/2 que com base no estado atual e na opção do utilizador vai decidir qual é o estado de jogo seguinte.
+Para isto recorremos ao predicado main_menu/0, que por sua vez chama o display_main_menu/0. Este limita-se a mostrar o menu. Recorremos também ao ask_menu_option/2 que pede uma opção ao utilizador, validando-a de seguida. Recorremos também ao predicado next_state/2 que com base no estado atual e na opção do utilizador decide qual o estado de jogo seguinte.
 
 ![menu_principal_predicado](imagens/main_menu_pred.png)
 
-Temos outro menu no qual o utilizador pode selecionar qual a dificuldade do jogo(este menu só ocorre caso o utilizador tenha selecionado uma das opções de jogar com computador). Aqui o utilizador pode selecionar um de três niveís de dificuldade: fácil, médio ou difícil.
+Existe também um outro menu no qual o utilizador pode selecionar qual a dificuldade do jogo (este menu só é apresentado no caso do utilizador ter selecionado uma das opções de jogar com computador). Aqui, o utilizador pode selecionar um de três níveis de dificuldade: fácil, médio ou difícil.
 
 ![menu_de_dificuldade](imagens/difficulty_menu.png)
 
-Para isto recorri ao predicado menu_select_difficulty/1 que por sua vez recorre ao predicado display_menu_select_difficulty/0 que simplesmente mostra o menu e ask_menu_option/2 que vai pedir uma opção ao utilizador e ao mesmo tempo vai também validá-la. Este predicado retorna a dificuldade selecionada pelo utilizador.
+Para isto, recorre-se ao predicado menu_select_difficulty/1 que por sua vez utiliza o predicado display_menu_select_difficulty/0. Este simplesmente mostra o menu e ask_menu_option/2 que vai pedir uma opção ao utilizador e ao mesmo tempo vai também validá-la. Este predicado retorna a dificuldade selecionada pelo utilizador.
 
 ![menu_de_dificuldade_predicado](imagens/select_difficulty_pred.png)
 
@@ -125,7 +125,7 @@ Por último temos também outro menu que só aparece caso o utilizador tenha sel
 
 ![menu_de_seleção_de_peça](imagens/select_piece.png)
 
-Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predicado anterior. Simplesmente recorre ao predicado display_menu_select_piece/0 que mostra o menu e também recorre ao ask_menu_option/2 que vai pedir uma opção ao utilizador e ao mesmo tempo vai também validá-la. Este predicado retorna a peça selecionada pelo utilizador para o computador.
+Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predicado anterior. Simplesmente recorre ao predicado display_menu_select_piece/0 que mostra o menu assim como ask_menu_option/2 pede uma opção ao utilizador e ao mesmo tempo valida-a. Este predicado retorna a peça selecionada pelo utilizador para o computador.
 
 ![menu_de_seleção_de_peça_pred](imagens/select_piece_pred.png)
 
@@ -142,57 +142,57 @@ ListOfMoves apresenta a estrutura final seguinte:
 
 ## Execução de jogadas
 
-Para a a execução de jogadas temos o seguinte predicado move/3.
+Para a a execução de jogadas utiliza-se o seguinte predicado move/3.
 
 ![move_pred](imagens/move.png)
 
-Este predicado recebe como primeiro parâmetro o estado de jogo atual, como segundo a jogada a efetuar e como terceiro(valor a retornar) o novo estado de jogo que irá existir depois da jogada.  
-Como se pode ver este predicado recorre a outros predicados entre os quais estão:
+Este predicado recebe como primeiro parâmetro o estado de jogo atual, como segundo a jogada a efetuar e retorna no terceiro o novo estado de jogo que irá existir após a jogada.
+Como é possível observar, este predicado recorre a outros predicados entre os quais estão:
 
-- verifyEatMove/3: este predicado recebe como primeiro parâmetro a jogada a efetuar, como segundo parâmetor recebe o tabuleiro atual e como terceiro e também valor a retornar uma variável que nos diz se a jogada a efetuar é uma jogada de movimento normal ou se alguma peça é "comida". No fundo é isso que este predicado faz, verifica o tipo de jogada, normal ou uma em que se "come" peças;
+- verifyEatMove/3: este predicado recebe como primeiro parâmetro a jogada a efetuar, como segundo parâmetro o tabuleiro atual e como terceiro retorna uma variável que nos diz se a jogada a efetuar é uma jogada de movimento normal ou se alguma peça é "comida". Sucintamente, o predicado permite diferenciar se o jogador efetua um movimento para uma casa adjacente ou se "come" uma outra peça.
 
-- execute_moves/11: este predicado recebe no 1º parâmetro o tabuleiro atual, no 2º o jogador atual, no 3º, 4º e 5º o número de cada peças comidas de cada tipo, 6º a jogada atual, 7º o tipo de jogada, 8º o novo tabuelrio depois da execução da jogada, 9º, 10º e 11º os novos valores de peças comidas de cada tipo depois da execução da jogada. No fundo este predicado executa a jogada  removendo a peça selecionada da posição atual, e colocando-a na nova posição e elimina as peças comidas(se tiver sido alguma);
+- execute_moves/11: este predicado recebe no primeiro parâmetro o tabuleiro atual, no segundo o jogador atual, no terceiro, quarto e quintos o número de cada peças comidas de cada tipo, sexto a jogada atual, sétimo o tipo de jogada, oitavo o novo tabuleiro depois da execução da jogada, nono, décimo e décimo-primeiros os novos valores de peças comidas de cada tipo depois da execução da jogada. Em suma,  este predicado executa a jogada, removendo a peça selecionada da posição atual e colocando-a na nova posição. Eliminando também eventuais peças comidas.
 
-- change_Player_Has_Z/4: este predicado recebe como 1º parâmetro o tipo de jogada, 2º o jogador atual, 3º jogador que detém posse sobre os zombies e como 4º e valor a retornar o jogador que detém posse sobre os zombies depois da jogada ser executada. No fundo o que este predicado faz é tendo em conta a jogada atual muda ou não o jogador que detém o controlo sobre os zombies;
+- change_Player_Has_Z/4: este predicado recebe como primeiro parâmetro o tipo de jogada, em segundo o jogador atual, em terceiro o jogador que detém posse sobre os zombies e como quarto e valor de retorno, o jogador que detém posse sobre os zombies depois da jogada ser executada. Este predicado muda (ou não) o jogador que detém controlo sobre os zombies tendo em conta a jogada atual.
 
-- next_player/4: este predicado recebe como 1º parâmetro o jogador atual, 2º parâmetro o jogador que tinha posse sobre os zombies antes da jogada ser executada, 3º o jogador que detém posso sobre os zombies depois da executada ser executada e como 4º e valor a retornar quem será o jogador a executar a próxima jogada. No fundo o que este predicado faz é tendo em conta a jogada atual dá-nos quem será o jogador seguinte.
+- next_player/4: este predicado recebe como primeiro parâmetro o jogador atual, segundo parâmetro o jogador que detinha a posse dos zombies antes da jogada, em terceiro o jogador que detém posse sobre os zombies após a jogada e como quarto e valor de retorno, o jogador que deve executar a próxima jogada. O predicado indica o jogador seguinte em função da jogada atual.
 
 ## Final de jogo
 
 Para avaliarmos se o jogo chegou ao fim recorremos ao seguinte predicado game_over/2.
 Este predicado recebe como 1º parâmetro o estado atual do jogo e como 2º e valor a retornar o vencedor, caso o jogo ainda não tenha chegado a um fim o predicado falha.  
 
-Se o jogo chegou a um fim significa que atingimos uma das 6 seguintes possibilidades:
+Se o jogo chegou a um fim significa uma das seis seguintes possibilidades foi atingida:
 
-- todas as peças X foram eliminadas nesse caso este predicado sussede:
+- No caso de todas as peças X serem eliminadas:
 
 ![game_over_x_elim_pred](imagens/game_over_x_elim_pred.png)
 
-- todas as peças O foram eliminadas nesse caso este predicado sussede:
+- No caso de todas as peças O serem eliminadas:
 
 ![game_over_o_elim_pred](imagens/game_over_o_elim_pred.png)
 
-- todas as peças Z foram eliminadas nesse caso este predicado sussede:
+- No caso de todas as peças Z serem eliminadas:
 
 ![game_over_z_elim_pred](imagens/game_over_z_elim_pred.png)
 
-- todas as peças X restantes em tabuleiro estão a tocar a borda do seu tipo:
+- Todas as peças X estão em contacto com a borda do tabuleiro correspondente:
 
 ![game_over_x_bord_pred](imagens/game_over_x_bord_pred.png)
 
-- todas as peças O restantes em tabuleiro estão a tocar a borda do seu tipo:
+- Todas as peças O estão em contacto com a borda do tabuleiro correspondente:
 
 ![game_over_o_bord_pred](imagens/game_over_o_bord_pred.png)
 
-- todas as peças Z restantes em tabuleiro estão a tocar a borda do seu tipo:
+- Todas as peças Z estão em contacto com a borda do tabuleiro correspondente:
 
 ![game_over_z_bord_pred](imagens/game_over_z_bord_pred.png)
 
-Como se pode ver todos estes predicados têm em comum os dois últimos predicados:
+Todos estes predicados têm os dois últimos predicados comuns:
 
-- calcElemPontuation/7: este predicado recebe como 1º parâmetro o tabuleiro atual, 2º, 3º e 4º o número de peças de cada tipo eliminadas e 5º, 6º e 7º e valores a retornar a pontução de cada peça tendo em conta os parâmetros anteriores. No fundo o que este predicado faz é calcular a pontuação de cada tipo de peças;
+- calcElemPontuation/7: este predicado recebe como primeiro parâmetro o tabuleiro atual, segundo, terceiro e quartos o número de peças de cada tipo eliminadas e quinto, sexto e sétimos os valores a retornar com a pontução de cada tipo de peça tendo em conta os parâmetros anteriores. O predicado permite-nos obter a pontuação de cada tipo de peça.
 
-- calcWinner/4: este predicado recebe como 1º, 2º e 3º parâmetros as pontuações de cada peça e como 4º e valor a retornar o vencedor ou em caso de empate este parâmtro fica em branco. No fundo o que este predicado faz é calcular o vencedor tendo em conta a pontuação de cada tipo de peças.
+- calcWinner/4: este predicado recebe como primeiro, segundo e terceiros parâmetros as pontuações de cada peça e como quarto e valor de retorno o vencedor. Em caso de empate, este parâmetro fica em branco. O predicado permite-nos obter a pontuação de cada tipo de peça.
 
 ## Avaliação do tabuleiro
 A avaliação do tabuleiro é feita através do predicado value/3. Este recebe o estado de jogo Board e o Player e devolve o valor da pontuação do jogador Player em Value. A pontuação de um jogador depende de dois parâmetros, as peças adversárias comidas (1 ponto cada) e o número de peças próprias que se encontram posicionadas na parede do tabuleiro com a cor correspondente (2 pontos cada). O predicado value utiliza duas outras funções para este cálculo:
