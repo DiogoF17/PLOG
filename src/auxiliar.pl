@@ -239,7 +239,7 @@ calcWinner(PontX, PontO, PontZ, 'Z') :-
 calcWinner(_, _, _, ' ').
 
 /*-------------------------------*/
-show_pc_move(Move, 'n').
+show_pc_move(_, 'n').
 
 show_pc_move(Move, 'y') :-
     format("------------------------------\n", []),
