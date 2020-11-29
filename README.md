@@ -134,7 +134,11 @@ Para isso recorremos ao predicado menu_select_piece/1 que é idêntico ao predic
 ListOfMoves apresenta a estrutura final seguinte:
 [[[Row,Col,NextRow,NextCol],[*idem se for possível comer outra peça*]],[*outras jogadas*.]]
 
--o predicado valid_moves/3 começa por chamar get_row_num/5 que permite obter  
+- O predicado valid_moves/3 começa por chamar get_row_num/5 de forma a obter uma lista contendo a posição de cada elemento do jogador Player no tabuleiro.
+
+- De seguida, é utilizado o predicado get_valid_adj_pos/4 de forma a obter as deslocações (para casas adjacentes) possíveis para cada peça do jogador. Estas jogadas, no entanto ainda não incluem movimentos para comer outra peça. O predicado confirma que na linha seguinte, as colunas adjacentes se encontram livres para a peça em questão poder ser movimentada. Caso estejam, as mesmas são adicionadas à lista de posições adjacentes disponíveis.
+
+- Depois, através de get_valid_eat_pos/3 é possível obter as jogadas que permitem comer outras peças. O predicado utiliza um outro: eat_all_dir/5 que obtém todas as casas a uma distância de 2 para onde será possível movimentar a peça que vai comer outra, no caso da futura casa estar livre. Por fim, get_valid_eat_pos/3 chama-se recursivamente de modo a percorrer todos os elementos.
 
 ## Execução de jogadas
 
@@ -203,9 +207,11 @@ A avaliação do tabuleiro é feita através do predicado value/3. Este recebe o
 As jogadas do computador são realizadas através do predicado choose_move/4 que recebe o estado de jogo GameState, o jogador Player e o nível de dificuldade Level e devolve a jogada em Move. O predicado tem também uma segunda implementação choose_move/3 onde é passado apenas o nível e uma lista de jogadas ordenada por dificuldades e retorna a jogada adequada em Move.
 
 - No primeiro caso é criada uma lista com as jogadas válidas para o jogador em questão, através do predicado valid_moves. De seguida são calculados os valores de pontuação associados a cada jogada e adicionados a uma outra lista, que será posteriormente ordenada por dificuldade crescente. De seguida é chamado o choose_moves/3, onde é passada a dificuldade ('Easy','Medium','Hard') e a lista ordenada das jogadas com os valores associados
+
 - Quando o nível de dificuldade passado é 'Easy', o predicado devolve a primeira jogada da lista. Quando esta é 'Hard' devolve a última jogada. Se for 'Medium', é devolvida a jogada presente no centro da lista.
 
 # Conclusões
+Ao longo da realização do projeto, foi possível uma familiarização do grupo com a linguagem de Prolog. Linguagem esta que requereu um pensamento diferente das linguagens já estudadas previamente. Desta forma, foi possível cumprir os objetivos impostos ao grupo e desenvolver um jogo de tabuleiro funcional e completo.
 
 # Bibliografia
 
