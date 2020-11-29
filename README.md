@@ -59,32 +59,27 @@ O estado do jogo é representado através da estrutura *state(Board, Player, ZPl
 
 ![state](imagens/state.png)
 
-Nesta estrutura Board representa-se o tabuleiro de jogo, em Player representa o jogador atual(*X*, *O* ou *Z*), ZPlayer representa o jogador que detém posso sobre a *green skull* (*X* ou *O*), ou seja, sobre os zombies, XEliminated representa o número de peças X eliminadas do tabuleiro, OEliminated representa o número de peças O eliminadas do tabuleiro e finalmente ZEliminated representa o número de peças Z eliminadas do tabuleiro.
+Nesta estrutura Board representa o tabuleiro de jogo, Player representa o jogador atual(*X*, *O* ou *Z*), ZPlayer representa o jogador que detém posso sobre a *green skull* (*X* ou *O*), ou seja, sobre os zombies, XEliminated representa o número de peças X eliminadas do tabuleiro, OEliminated representa o número de peças O eliminadas do tabuleiro e finalmente ZEliminated representa o número de peças Z eliminadas do tabuleiro.
 
 O tabuleiro triangular é representado através de uma lista de listas com a seguinte disposição:
 
 **Estado inicial do jogo:**
+
 ![tabela_inicial](imagens/initial_board.png)
 
 O tabuleiro é criado com as peças nas suas posições iniciais. As peças Zombie são representadas visualmente pela letra “Z”, Goblins por “O” e Orcs por “X”.
 
+**Estados intermédios do jogo:**
 
 Os três tabuleiros seguintes representam estados de jogo intermédios. Podemos observar algumas peças movidas e outras retiradas do tabuleiro.
 
-
-**Estados intermédios do jogo:**
 ![tabela_intermedia](imagens/tabela_intermedia.png)
 
+**Estado final do jogo:**
 
 Esta última tabela mostra-nos o estado final do jogo. O jogo terminou pois todas as peças Zombie (“Z”) estão em contacto com a face do tabuleiro correspondente à sua cor (neste caso a base do triângulo).
 
-**Estado final do jogo:**
 ![tabela_final](imagens/tabela_final.png)
-
-
-Guardamos a informação de qual o jogador que deve jogar através do facto que vamos alterando dinamicamente chamado player_turn e guarda uma string que indica qual é o jogador a jogar. Da mesma forma, representamos o detentor do crânio verde com o facto z_belongs_to que também contém uma string que nos diz qual dos dois jogadores controla os zombies nesse instante.
-Em relação a peças eliminadas, temos também três factos que alternam dinamicamente: o_eliminated, z_eliminated e x_eliminated; estes factos contêm o número de peças eliminadas da sua espécie. Sempre que alguma destas peças é eliminada no respetivo facto, incrementamos o valor de peças eliminadas.
-Em relação à representação das peças, são utilizadas strings. Como descrito anteriormente, cada uma situada na sua posição específica do tabuleiro.
 
 
 ## Visualização do Estado de jogo
