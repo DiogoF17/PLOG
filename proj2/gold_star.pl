@@ -50,6 +50,8 @@ print_gold_start_completed([Op1, Op2, Op3, Op4, Op5, Op6, Op7, Op8, Op9, Op10], 
 % ##################
 
 gold_star([Op1, Op2, Op3, Op4, Op5, Op6, Op7, Op8, Op9, Op10]) :-
+    %
+    statistics(runtime, _),
     % prints gold star structure
     format("---------------\n", []),
     format("GOLD STAR STRUCTURE\n\n", []),
@@ -70,18 +72,20 @@ gold_star([Op1, Op2, Op3, Op4, Op5, Op6, Op7, Op8, Op9, Op10]) :-
     format("N1 ", []), calc(N1, N4, Op2, Res3), format(" N4 = N7 ", []), calc(N7, N10, Op8, Res3), format(" N10\n", []),
     format("N2 ", []), calc(N2, N6, Op5, Res4), format(" N6 = N8 ", []), calc(N8, N10, Op10, Res4), format(" N10\n", []),
     format("N7 ", []), calc(N7, N5, Op6, Res5), format(" N5 = N9 ", []), calc(N9, N8, Op9, Res5), format(" N8\n", []),
-    format("\nDone!\n", []),
+    statistics(runtime, [_, T]),
+    format("\nDone! Time: ~p\n", [T]),
     %
     format("---------------\n", []),
     format("Labeling...\n", []),
     labeling([], Num),
-    format("\nDone!\n", []),
+    statistics(runtime, [_, T1]),
+    format("\nDone! Time: ~p\n", [T1]),
     %
     % prints gold star completed
     format("---------------\n", []),
     format("GOLD STAR COMPLETED\n\n", []),
     print_gold_start_completed([Op1, Op2, Op3, Op4, Op5, Op6, Op7, Op8, Op9, Op10], [N1, N2, N3, N4, N5, N6, N7, N8, N9, N10]),
-    format("---------------\n", []).
+    format("---------------\n\n", []).
 
 % ##################
 
