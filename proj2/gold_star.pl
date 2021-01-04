@@ -51,7 +51,7 @@ print_gold_start_completed([Op1, Op2, Op3, Op4, Op5, Op6, Op7, Op8, Op9, Op10], 
 
 gold_star([Op1, Op2, Op3, Op4, Op5, Op6, Op7, Op8, Op9, Op10]) :-
     %
-    statistics(runtime, _),
+    statistics(total_runtime, _),
     % prints gold star structure
     format("---------------\n", []),
     format("GOLD STAR STRUCTURE\n\n", []),
@@ -72,14 +72,16 @@ gold_star([Op1, Op2, Op3, Op4, Op5, Op6, Op7, Op8, Op9, Op10]) :-
     format("N1 ", []), calc(N1, N4, Op2, Res3), format(" N4 = N7 ", []), calc(N7, N10, Op8, Res3), format(" N10\n", []),
     format("N2 ", []), calc(N2, N6, Op5, Res4), format(" N6 = N8 ", []), calc(N8, N10, Op10, Res4), format(" N10\n", []),
     format("N7 ", []), calc(N7, N5, Op6, Res5), format(" N5 = N9 ", []), calc(N9, N8, Op9, Res5), format(" N8\n", []),
-    statistics(runtime, [_, T]),
-    format("\nDone! Time: ~p\n", [T]),
+    statistics(total_runtime, [_, T]),
+    TS is ((T//10)*10)/1000,
+    format("\nDone! Time: ~ps\n", [TS]),
     %
     format("---------------\n", []),
     format("Labeling...\n", []),
     labeling([], Num),
-    statistics(runtime, [_, T1]),
-    format("\nDone! Time: ~p\n", [T1]),
+    statistics(total_runtime, [_, T1]),
+    TS1 is ((T1//10)*10)/1000,
+    format("\nDone! Time: ~ps\n", [TS1]),
     %
     % prints gold star completed
     format("---------------\n", []),
